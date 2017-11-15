@@ -1,0 +1,73 @@
+
+.sortable-table-widget.table {
+
+  position: relative;
+
+  thead > tr > th {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 97% center;
+    padding-right: 20px;
+  }
+
+  tbody {
+    border-bottom: 1px solid #ddd;
+  }
+
+  td.options {
+    text-align: right;
+
+    button.btn-xs {
+      background-color: #ddd;
+      border-radius: 0;
+      border: none;
+    }
+  }
+
+
+  /*
+   * Sorting
+   */
+  .sorting {
+    background-image: url('/assets/img/sort_both.png');
+  }
+
+  .sorting_asc {
+    background-image: url('/assets/img/sort_asc.png');
+  }
+
+  .sorting_desc {
+    background-image: url('/assets/img/sort_desc.png');
+  }
+
+  .sorting_asc_disabled {
+    background-image: url('/assets/img/sort_asc_disabled.png');
+  }
+
+  .sorting_desc_disabled {
+    background-image: url('/assets/img/sort_desc_disabled.png');
+  }
+
+  thead th:active,
+  thead td:active {
+    outline: none;
+  }
+
+  .search {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 250px;
+
+    .searchicon {
+      top: 14px;
+      right: 17px;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+}

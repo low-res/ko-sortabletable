@@ -1,0 +1,49 @@
+{
+  "name": "ko-sortabletable",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/low-res/ko-sortabletable.git"
+  },
+  "license": "MIT",
+  "format": "amd",
+  "jspm": {
+    "main": "index",
+    "directories": {
+      "lib": "src",
+      "test": "tests"
+    },
+    "dependencies": {
+      "knockout": "github:knockout/knockout@^3.4.2",
+      "lodash": "npm:lodash@^4.17.4",
+      "low-res/formater": "github:low-res/formater@master",
+      "low-res/ko-fielddefinitions": "github:low-res/ko-fielddefinitions@master",
+      "low-res/ko-systemjsloader": "github:low-res/ko-systemjsloader@master",
+      "low-res/translator": "github:low-res/translator@master",
+      "postal": "npm:postal@^2.0.5",
+      "systemjs/plugin-css": "github:systemjs/plugin-css@^0.1.35",
+      "systemjs/plugin-text": "github:systemjs/plugin-text@^0.0.11"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4",
+      "jasmine-core": "npm:jasmine-core@^2.7.0",
+      "karma": "npm:karma@^1.7.0",
+      "karma-chrome-launcher": "npm:karma-chrome-launcher@^2.2.0",
+      "karma-coverage": "npm:karma-coverage@^1.1.1",
+      "karma-jasmine": "npm:karma-jasmine@^1.1.0",
+      "karma-systemjs": "npm:karma-systemjs@^0.16.0"
+    }
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "jasmine-core": "^2.7.0",
+    "jspm": "^0.16.53",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-systemjs": "^0.16.0"
+  }
+}
