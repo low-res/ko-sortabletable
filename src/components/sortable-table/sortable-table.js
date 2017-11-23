@@ -13,6 +13,7 @@ define([
         this.originalTabledata  = params.tabledata;
         this.columnFields       = params.fieldsCollection;
         this.rowOptions         = params.rowOptions || [];
+        this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
 
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");

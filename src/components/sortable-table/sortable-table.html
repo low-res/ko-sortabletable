@@ -1,59 +1,65 @@
 <div class="table-responsive">
+    <!-- ko if:visibleTabledata().length > 0 -->
     <table class="table sortable sortable-table-widget">
         <thead>
-            <tr>
-                <!-- ko foreach: $component.columnFields -->
-                <th data-bind="click: function(){ $parent.sortBy($data);} , css: $parent.calculateColumnHeaderCssClass($data)">
-                    {{ $data.label | translate }}
-                </th>
-                <!-- /ko -->
+        <tr>
+            <!-- ko foreach: $component.columnFields -->
+            <th data-bind="click: function(){ $parent.sortBy($data);} , css: $parent.calculateColumnHeaderCssClass($data)">
+                {{ $data.label | translate }}
+            </th>
+            <!-- /ko -->
 
-                <!-- ko if:$component.rowOptions.length > 0 || searchable -->
-                <th>
-                    <!-- ko if:searchable -->
-                    <div class="input-group search">
-                        <!-- ko if:isSearchOpen -->
-                        <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm, hasfocus: searchFocus">
-                        <div class="input-group-addon" data-bind="click:toggleSearchfield">
-                            <span data-bint="click:toggleSearchfield" class="glyphicon glyphicon-remove"></span>
-                        </div>
-                        <!-- /ko -->
-
-                        <!-- ko if:!isSearchOpen() -->
-                        <span data-bind="click:toggleSearchfield" class="searchicon pull-right glyphicon glyphicon-search"></span>
-                        <!-- /ko -->
+            <!-- ko if:$component.rowOptions.length > 0 || searchable -->
+            <th>
+                <!-- ko if:searchable -->
+                <div class="input-group search">
+                    <!-- ko if:isSearchOpen -->
+                    <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm, hasfocus: searchFocus">
+                    <div class="input-group-addon" data-bind="click:toggleSearchfield">
+                        <span data-bint="click:toggleSearchfield" class="glyphicon glyphicon-remove"></span>
                     </div>
                     <!-- /ko -->
-                    <!-- ko if:!searchable -->&nbsp<!-- /ko -->
-                </th>
+
+                    <!-- ko if:!isSearchOpen() -->
+                    <span data-bind="click:toggleSearchfield" class="searchicon pull-right glyphicon glyphicon-search"></span>
+                    <!-- /ko -->
+                </div>
                 <!-- /ko -->
-            </tr>
+                <!-- ko if:!searchable -->&nbsp<!-- /ko -->
+            </th>
+            <!-- /ko -->
+        </tr>
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
-            <tr>
-                <!-- ko foreach: $component.columnFields -->
-                <td>
-                    {{{ $data.getFormatedFieldValue( rowData ) }}}
-                </td>
-                <!-- /ko -->
+        <tr>
+            <!-- ko foreach: $component.columnFields -->
+            <td>
+                {{{ $data.getFormatedFieldValue( rowData ) }}}
+            </td>
+            <!-- /ko -->
 
-                <!-- ko if:$component.rowOptions.length > 0 -->
-                <td class="options">
-                    <!-- ko foreach: $component.rowOptions -->
-                    <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                        <span class="{{$data.icon}}"></span>
-                    </button>
-                    <!-- /ko -->
-                </td>
+            <!-- ko if:$component.rowOptions.length > 0 -->
+            <td class="options">
+                <!-- ko foreach: $component.rowOptions -->
+                <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    <span class="{{$data.icon}}"></span>
+                </button>
                 <!-- /ko -->
+            </td>
+            <!-- /ko -->
 
-                <!-- ko if: $component.searchable &&  $component.rowOptions.length == 0 -->
-                <td>&nbsp;</td>
-                <!-- /ko -->
-            </tr>
+            <!-- ko if: $component.searchable &&  $component.rowOptions.length == 0 -->
+            <td>&nbsp;</td>
+            <!-- /ko -->
+        </tr>
         </tbody>
         <tfoot>
 
         </tfoot>
     </table>
+    <!-- /ko -->
+
+    <!-- ko if:visibleTabledata().length == 0 -->
+    <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
+    <!-- /ko -->
 </div>
