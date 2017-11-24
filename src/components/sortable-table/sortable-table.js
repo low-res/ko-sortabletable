@@ -42,7 +42,7 @@ define([
                 t = _.filter(t, function ( tableRow ) {
                     var fields = ko.utils.unwrapObservable(self.columnFields)
                     var isSearchtermIncluded = _.reduce( fields, function (isIncluded, tmpField) {
-                        console.log( isIncluded, tmpField );
+                        // console.log( isIncluded, tmpField );
                         var val = tmpField.getFormatedFieldValue( tableRow ) || "";
                         var unformated = tmpField.getFieldValue( tableRow ) || "";
                         var contained = val.toString().toLocaleLowerCase().indexOf(searchterm.toLocaleLowerCase()) > -1;
