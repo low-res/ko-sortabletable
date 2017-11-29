@@ -1,0 +1,62 @@
+.sortable-table-widget.table {
+  position: relative;
+  /*
+   * Sorting
+   */
+}
+.sortable-table-widget.table thead > tr > th {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 97% center;
+  padding-right: 20px;
+}
+.sortable-table-widget.table tbody {
+  border-bottom: 1px solid #ddd;
+}
+.sortable-table-widget.table td.options {
+  text-align: right;
+}
+.sortable-table-widget.table td.options button.btn-xs {
+  background-color: #ddd;
+  border-radius: 0;
+  border: none;
+}
+.sortable-table-widget.table .sorting {
+  background-image: url('/assets/img/sort_both.png');
+  background-position: right 0px bottom 12px;
+}
+.sortable-table-widget.table .sorting_asc {
+  background-image: url('/assets/img/sort_asc.png');
+  background-position: right 0px bottom 12px;
+}
+.sortable-table-widget.table .sorting_desc {
+  background-image: url('/assets/img/sort_desc.png');
+  background-position: right 0px bottom 12px;
+}
+.sortable-table-widget.table .sorting_asc_disabled {
+  background-image: url('/assets/img/sort_asc_disabled.png');
+  background-position: right 0px bottom 12px;
+}
+.sortable-table-widget.table .sorting_desc_disabled {
+  background-image: url('/assets/img/sort_desc_disabled.png');
+  background-position: right 0px bottom 12px;
+}
+.sortable-table-widget.table thead th:active,
+.sortable-table-widget.table thead td:active {
+  outline: none;
+}
+.sortable-table-widget.table .search {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 250px;
+}
+.sortable-table-widget.table .search .searchicon {
+  top: 14px;
+  right: 17px;
+  opacity: 0.5;
+}
+.sortable-table-widget.table .search .searchicon:hover {
+  opacity: 1;
+  cursor: pointer;
+}
