@@ -18,6 +18,7 @@
       "lodash": "npm:lodash@^4.17.4",
       "low-res/formater": "github:low-res/formater@master",
       "low-res/ko-fielddefinitions": "github:low-res/ko-fielddefinitions@master",
+      "low-res/ko-punches-additions": "github:low-res/ko-punches-additions@^2.0.3",
       "low-res/ko-systemjsloader": "github:low-res/ko-systemjsloader@master",
       "low-res/translator": "github:low-res/translator@master",
       "postal": "npm:postal@^2.0.5",

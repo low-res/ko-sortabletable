@@ -10,6 +10,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
+    "css": "github:systemjs/plugin-css@0.1.35",
     "jasmine-core": "npm:jasmine-core@2.8.0",
     "karma": "npm:karma@1.7.0",
     "karma-chrome-launcher": "npm:karma-chrome-launcher@2.2.0",
@@ -20,11 +21,11 @@ System.config({
     "lodash": "npm:lodash@4.17.4",
     "low-res/formater": "github:low-res/formater@master",
     "low-res/ko-fielddefinitions": "github:low-res/ko-fielddefinitions@master",
+    "low-res/ko-punches-additions": "github:low-res/ko-punches-additions@2.0.3",
     "low-res/ko-systemjsloader": "github:low-res/ko-systemjsloader@master",
     "low-res/translator": "github:low-res/translator@master",
     "postal": "npm:postal@2.0.5",
     "systemjs/plugin-css": "github:systemjs/plugin-css@0.1.35",
-    "css": "github:systemjs/plugin-css@0.1.35",
     "systemjs/plugin-text": "github:systemjs/plugin-text@0.0.11",
     "text": "github:systemjs/plugin-text@0.0.11",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -113,8 +114,17 @@ System.config({
       "low-res/formater": "github:low-res/formater@master",
       "low-res/validator": "github:low-res/validator@master"
     },
+    "github:low-res/ko-punches-additions@2.0.3": {
+      "knockout": "github:knockout/knockout@3.4.2",
+      "lodash": "npm:lodash@4.17.4",
+      "low-res/formater": "github:low-res/formater@master",
+      "low-res/translator": "github:low-res/translator@master"
+    },
     "github:low-res/ko-systemjsloader@master": {
       "knockout": "github:knockout/knockout@3.4.2"
+    },
+    "github:low-res/translator@master": {
+      "sprintf-js": "npm:sprintf-js@1.1.1"
     },
     "github:low-res/validator@master": {
       "lodash": "npm:lodash@4.17.4"
@@ -1659,6 +1669,9 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:spdx-license-ids@1.2.2": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:sprintf-js@1.1.1": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:sshpk@1.13.1": {
