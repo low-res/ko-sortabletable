@@ -21,7 +21,7 @@ System.config({
     "lodash": "npm:lodash@4.17.4",
     "low-res/formater": "github:low-res/formater@master",
     "low-res/ko-fielddefinitions": "github:low-res/ko-fielddefinitions@master",
-    "low-res/ko-punches-additions": "github:low-res/ko-punches-additions@2.0.5",
+    "low-res/ko-punches-additions": "github:low-res/ko-punches-additions@2.0.6",
     "low-res/ko-systemjsloader": "github:low-res/ko-systemjsloader@master",
     "low-res/translator": "github:low-res/translator@master",
     "postal": "npm:postal@2.0.5",
@@ -114,7 +114,7 @@ System.config({
       "low-res/formater": "github:low-res/formater@master",
       "low-res/validator": "github:low-res/validator@master"
     },
-    "github:low-res/ko-punches-additions@2.0.4": {
+    "github:low-res/ko-punches-additions@2.0.6": {
       "knockout": "github:knockout/knockout@3.4.2",
       "lodash": "npm:lodash@4.17.4",
       "low-res/formater": "github:low-res/formater@master",
