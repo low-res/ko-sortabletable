@@ -1,13 +1,15 @@
 define([
     'knockout',
     'lodash',
+    'low-res/ko-punches-additions',
     './sortable-table.html!text',
     './sortable-table.css!css'
-], function (ko, _, templateMarkup) {
+], function (ko, _, kopa, templateMarkup) {
 
     var p = SortableTableWidget.prototype;
 
     function SortableTableWidget(params) {
+
         if( !params.tabledata || !params.fieldsCollection ) throw(new Error("You MUST profide at lease a value for tabledata and a value for fieldsCollection!"));
         var self = this;
         this.originalTabledata  = params.tabledata;
@@ -55,6 +57,9 @@ define([
 
             return t;
         })
+
+        // make sure kopa filters are available
+        if(!ko.filters.translate) kopa.init();
     }
 
 
