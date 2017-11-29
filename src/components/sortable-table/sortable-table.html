@@ -32,7 +32,7 @@
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-        <tr data-bind="css: { odd: (index % 2 == 1), even: (index % 2 == 0) }">
+        <tr data-bind="css: { odd: ($index % 2 == 1), even: ($index % 2 == 0) }">
             <!-- ko foreach: $component.columnFields -->
             <td>
                 {{{ $data.getFormatedFieldValue( rowData ) }}}
