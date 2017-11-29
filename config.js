@@ -11,6 +11,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
     "css": "github:systemjs/plugin-css@0.1.35",
+    "cure53/DOMPurify": "github:cure53/DOMPurify@1.0.2",
     "jasmine-core": "npm:jasmine-core@2.8.0",
     "karma": "npm:karma@1.7.1",
     "karma-chrome-launcher": "npm:karma-chrome-launcher@2.2.0",

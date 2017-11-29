@@ -14,6 +14,7 @@
       "test": "tests"
     },
     "dependencies": {
+      "cure53/DOMPurify": "github:cure53/DOMPurify@^1.0.2",
       "knockout": "github:knockout/knockout@^3.4.2",
       "lodash": "npm:lodash@^4.17.4",
       "low-res/formater": "github:low-res/formater@master",

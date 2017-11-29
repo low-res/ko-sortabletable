@@ -2,9 +2,10 @@ define([
     'knockout',
     'lodash',
     'low-res/ko-punches-additions',
+    'cure53/DOMPurify',
     './sortable-table.html!text',
-    './sortable-table.css!css'
-], function (ko, _, kopa, templateMarkup) {
+    // './sortable-table.css!css'
+], function (ko, _, kopa, DOMPurify, templateMarkup) {
 
     var p = SortableTableWidget.prototype;
 
@@ -113,6 +114,11 @@ define([
     }
 
 
+    p._getFormatedFieldValue = function (field, rowData) {
+        var formatedValue   = field.getFormatedFieldValue( rowData );
+        var sanitizedValue  = DOMPurify.sanitize( formatedValue );
+        return sanitizedValue;
+    }
 
     p.dispose = function () {
         console.log( "-- dispose SortableTableWidget --" );

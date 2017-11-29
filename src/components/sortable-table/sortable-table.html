@@ -32,27 +32,27 @@
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-        <tr data-bind="css: { odd: ($index % 2 == 1), even: ($index % 2 == 0) }">
-            <!-- ko foreach: $component.columnFields -->
-            <td>
-                {{{ $data.getFormatedFieldValue( rowData ) }}}
-            </td>
-            <!-- /ko -->
-
-            <!-- ko if:$component.rowOptions.length > 0 -->
-            <td class="options">
-                <!-- ko foreach: $component.rowOptions -->
-                <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                    <span class="{{$data.icon}}"></span>
-                </button>
+            <tr data-bind="css: { odd: ($index % 2 == 1), even: ($index % 2 == 0) }">
+                <!-- ko foreach: $component.columnFields -->
+                <td>
+                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                </td>
                 <!-- /ko -->
-            </td>
-            <!-- /ko -->
 
-            <!-- ko if: $component.searchable &&  $component.rowOptions.length == 0 -->
-            <td>&nbsp;</td>
-            <!-- /ko -->
-        </tr>
+                <!-- ko if:$component.rowOptions.length > 0 -->
+                <td class="options">
+                    <!-- ko foreach: $component.rowOptions -->
+                    <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                        <span class="{{$data.icon}}"></span>
+                    </button>
+                    <!-- /ko -->
+                </td>
+                <!-- /ko -->
+
+                <!-- ko if: $component.searchable &&  $component.rowOptions.length == 0 -->
+                <td>&nbsp;</td>
+                <!-- /ko -->
+            </tr>
         </tbody>
         <tfoot>
 
