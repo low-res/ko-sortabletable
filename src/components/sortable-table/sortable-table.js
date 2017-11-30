@@ -103,7 +103,7 @@ define([
     p.exportAsCsv = function () {
         var filename = "data.csv";
         var csvString = this._generateCSVString();
-        var blob = new Blob(csvString, { type:   'text/csv' } );
+        var blob = new Blob([csvString], { type:   'text/csv' } );
 
         if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE
             window.navigator.msSaveOrOpenBlob(blob, filename);
