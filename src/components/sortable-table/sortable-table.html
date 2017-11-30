@@ -1,6 +1,22 @@
-<div class="table-responsive">
+<div class="table-responsive sortable-table-widget {{customTableClass}}">
+    <div class="header">
+        <!-- ko if:widgetHeadline!="" --><h4>{{ widgetHeadline | translate }}</h4><!-- /ko -->
+
+        <!-- ko if:searchable -->
+        <div class="input-group search">
+            <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: exportable --> <div class="csv-export" data-bind="click:exportAsCsv">csv export</div> <!-- /ko -->
+    </div>
+
+
     <!-- ko if:visibleTabledata().length > 0 -->
-    <table class="table sortable sortable-table-widget">
+    <table class="table sortable">
         <thead>
         <tr>
             <!-- ko foreach: $component.columnFields -->
@@ -9,22 +25,8 @@
             </th>
             <!-- /ko -->
 
-            <!-- ko if:$component.rowOptions.length > 0 || searchable -->
+            <!-- ko if:$component.rowOptions.length > 0 -->
             <th>
-                <!-- ko if:searchable -->
-                <div class="input-group search">
-                    <!-- ko if:isSearchOpen -->
-                    <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm, hasfocus: searchFocus">
-                    <div class="input-group-addon" data-bind="click:toggleSearchfield">
-                        <span data-bint="click:toggleSearchfield" class="glyphicon glyphicon-remove"></span>
-                    </div>
-                    <!-- /ko -->
-
-                    <!-- ko if:!isSearchOpen() -->
-                    <span data-bind="click:toggleSearchfield" class="searchicon pull-right glyphicon glyphicon-search"></span>
-                    <!-- /ko -->
-                </div>
-                <!-- /ko -->
                 <!-- ko if:!searchable -->&nbsp<!-- /ko -->
             </th>
             <!-- /ko -->

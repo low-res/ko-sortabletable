@@ -17,15 +17,16 @@ define([
         this.columnFields       = params.fieldsCollection;
         this.rowOptions         = params.rowOptions || [];
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
+        this.customTableClass   = params.customTableClass || "";
+        this.widgetHeadline     = params.headline || "";
 
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");
 
         this.searchable         = params.searchable || true;
         this.searchTerm         = ko.observable("");
-        this.isSearchOpen       = ko.observable(false);
-        this.searchFocus        = ko.observable(false);
 
+        this.exportable         = params.exportable || false;
 
         this.visibleTabledata   = ko.pureComputed( function () {
             var t           = ko.utils.unwrapObservable(self.originalTabledata);
@@ -98,11 +99,23 @@ define([
     }
 
 
-    p.toggleSearchfield = function() {
-        var open = this.isSearchOpen();
-        if(open) this.searchTerm("");
-        else this.searchFocus(true);
-        this.isSearchOpen(!open);
+
+    p.exportAsCsv = function () {
+        var filename = "data.csv";
+        var csvString = this._generateCSVString();
+        var blob = new Blob(csvString, { type:   'text/csv' } );
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE
+            window.navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            var link = document.createElement('a');
+            document.body.appendChild(link);
+            link.href = window.URL.createObjectURL(blob);
+            console.log( blob, link );
+            link.download = filename;
+            link.click();
+            document.body.removeChild(link);
+        }
     }
 
     /******************
@@ -118,6 +131,33 @@ define([
         var formatedValue   = field.getFormatedFieldValue( rowData );
         var sanitizedValue  = DOMPurify.sanitize( formatedValue );
         return sanitizedValue;
+    }
+
+
+    p._generateCSVString = function () {
+        var res             = "";
+        var fields          = this.columnFields;
+        var self            = this;
+        var columnDelimiter = ",";
+        var rowDelimiter    = "\n";
+        var columnNames     = [];
+        _.forEach( fields, function (field) {
+            var l = window.kopa.translate(field.label);
+            columnNames.push( l );
+        });
+        console.log( columnNames );
+        res += columnNames.join(columnDelimiter);
+        res += rowDelimiter;
+
+        _.forEach( this.visibleTabledata(), function ( rowData ) {
+            var rowValues = [];
+            _.forEach( fields, function (field) {
+                rowValues.push( self._getFormatedFieldValue( field, rowData ) );
+            });
+            res += rowValues.join(columnDelimiter);
+            res += rowDelimiter;
+        });
+        return res;
     }
 
     p.dispose = function () {
