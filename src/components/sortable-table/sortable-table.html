@@ -2,6 +2,8 @@
     <div class="header">
         <!-- ko if:widgetHeadline!="" --><h4>{{ widgetHeadline | translate }}</h4><!-- /ko -->
 
+        <!-- ko if: exportable --> <div class="csv-export" data-bind="click:exportAsCsv">csv export</div> <!-- /ko -->
+
         <!-- ko if:searchable -->
         <div class="input-group search">
             <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
@@ -11,7 +13,6 @@
         </div>
         <!-- /ko -->
 
-        <!-- ko if: exportable --> <div class="csv-export" data-bind="click:exportAsCsv">csv export</div> <!-- /ko -->
     </div>
 
 
