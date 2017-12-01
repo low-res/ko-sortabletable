@@ -35,9 +35,9 @@
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-        <tr  data-bind="css: {even:$index()%2==0,odd:$index()%2==1} ">
+            <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
                 <!-- ko foreach: $component.columnFields -->
-                <td>
+                <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
                     {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
                 </td>
                 <!-- /ko -->

@@ -16,6 +16,8 @@ define([
         this.originalTabledata  = params.tabledata;
         this.columnFields       = params.fieldsCollection;
         this.rowOptions         = params.rowOptions || [];
+        this.trClassCalculators = params.trClassCalculators || [];
+        this.tdClassCalculators = params.tdClassCalculators || [];
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
         this.customTableClass   = params.customTableClass || "";
         this.widgetHeadline     = params.headline || "";
@@ -116,6 +118,26 @@ define([
             link.click();
             document.body.removeChild(link);
         }
+    }
+    
+    
+    p.calculateTRcssClass = function (rowData, index) {
+        var c = index%2==0 ? "even " : "odd ";
+        _.reduce(this.trClassCalculators, function(classes, func) {
+            var additionalClass = func(rowData, index)
+            return classes+" "+additionalClass;
+        }, c);
+        return c;
+    }
+
+
+    p.calculateTDcssClass = function (field, rowData) {
+        var c = "";
+        _.reduce(this.tdClassCalculators, function(classes, func) {
+            var additionalClass = func(field, rowData)
+            return classes+" "+additionalClass;
+        }, c);
+        return c;
     }
 
     /******************

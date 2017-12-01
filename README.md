@@ -21,5 +21,6 @@ Allowed params for this component are:
     headline - optinal, translateable headline-label for the widget. default:""
     searchable - boolean flag to indicate the table is seachable. default:true
     exportable - boolean flag to indicate the visible tabledata is exportable as csv. default:false
-
+    trClassCalculators - array of functions that return css classes that should be asigned to table rows. Given Functions are called with two parameters (rowData, index)
+    tdClassCalculators - array of functions that return css classes that should be asigned to table cells. Given Functions are called with two parameters (rowData, index)
 
