@@ -127,6 +127,7 @@ define([
     p.calculateTRcssClass = function (rowData, index) {
         var idx = ko.utils.unwrapObservable(index);
         var c = idx%2==0 ? "even " : "odd ";
+        c += this.rowOptions.length == 0 ? "no-options " : this.rowOptions.length == 1 ? "single-option " : "multiple-options";
         c = _.reduce(this.trClassCalculators, function(classes, func) {
             var additionalClass = func(rowData, idx);
             return classes+" "+additionalClass;
