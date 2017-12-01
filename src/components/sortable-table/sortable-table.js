@@ -64,6 +64,8 @@ define([
 
         // make sure kopa filters are available
         if(!ko.filters.translate) kopa.init();
+
+        this._gatherCssClassCalculatorsFromFields();
     }
 
 
@@ -121,6 +123,7 @@ define([
     }
 
 
+
     p.calculateTRcssClass = function (rowData, index) {
         var idx = ko.utils.unwrapObservable(index);
         var c = idx%2==0 ? "even " : "odd ";
@@ -132,6 +135,7 @@ define([
     }
 
 
+
     p.calculateTDcssClass = function (field, rowData) {
         var c = "";
         c = _.reduce(this.tdClassCalculators, function(classes, func) {
@@ -140,6 +144,7 @@ define([
         }, c);
         return c;
     }
+
 
 
     /**
@@ -193,6 +198,21 @@ define([
             res += rowDelimiter;
         });
         return res;
+    }
+
+
+    /**
+     * css class calculators for rows and tds can be provided in fielddefinitions.
+     * So we scan for those settings and add the appropriate functions to our
+     * calculators collections
+     * @private
+     */
+    p._gatherCssClassCalculatorsFromFields = function () {
+        var self = this;
+        _.forEach(this.columnFields, function (field) {
+            if( field.trClassCalculator ) self.trClassCalculators.push(field.trClassCalculator);
+            if( field.tdClassCalculator ) self.tdClassCalculators.push(field.tdClassCalculator);
+        })
     }
 
     p.dispose = function () {
