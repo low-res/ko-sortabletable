@@ -36,7 +36,7 @@
         <tr>
             <!-- ko foreach: $component.columnFields -->
             <th data-bind="click: function(){ $parent.sortBy($data);} , css: $parent.calculateColumnHeaderCssClass($data)">
-                {{ $data.label | translate }}
+                {{{ $data.label | translate }}}
             </th>
             <!-- /ko -->
 

@@ -140,6 +140,7 @@ define([
 
     p.calculateTDcssClass = function (field, rowData) {
         var c = "";
+        if(field.outputFormat) c += "format-"+field.outputFormat+" ";
         c = _.reduce(this.tdClassCalculators, function(classes, func) {
             var additionalClass = func(field, rowData);
             return classes+" "+additionalClass;
@@ -159,6 +160,7 @@ define([
             c( item );
         }
     }
+
 
     /******************
      *  PRIVATE METHODS
