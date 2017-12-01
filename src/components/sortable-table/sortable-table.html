@@ -2,7 +2,16 @@
     <div class="header clearfix">
         <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-        <div class="options">
+        <!-- ko if:searchable && visibleTabledata().length > 0 -->
+        <div class="input-group search pull-right">
+            <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <div class="options pull-right">
             <!-- ko foreach: $component.headerOptions -->
             <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
                 {{ $data.title | translate }}
@@ -16,18 +25,7 @@
                 <span class="fa fa-download"></span>
             </button>
             <!-- /ko -->
-
         </div>
-
-
-        <!-- ko if:searchable && visibleTabledata().length > 0 -->
-        <div class="input-group search">
-            <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
-            </div>
-        </div>
-        <!-- /ko -->
 
     </div>
 
