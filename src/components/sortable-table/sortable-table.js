@@ -26,7 +26,7 @@ define([
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");
 
-        this.searchable         = params.searchable || true;
+        this.searchable         = params.searchable && true;
         this.searchTerm         = ko.observable("");
 
         this.exportable         = params.exportable || false;
