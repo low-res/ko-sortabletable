@@ -119,12 +119,13 @@ define([
             document.body.removeChild(link);
         }
     }
-    
-    
+
+
     p.calculateTRcssClass = function (rowData, index) {
-        var c = ko.utils.unwrapObservable(index)%2==0 ? "even " : "odd ";
-        _.reduce(this.trClassCalculators, function(classes, func) {
-            var additionalClass = func(rowData, index)
+        var idx = ko.utils.unwrapObservable(index);
+        var c = idx%2==0 ? "even " : "odd ";
+        c = _.reduce(this.trClassCalculators, function(classes, func) {
+            var additionalClass = func(rowData, idx);
             return classes+" "+additionalClass;
         }, c);
         return c;
@@ -133,8 +134,8 @@ define([
 
     p.calculateTDcssClass = function (field, rowData) {
         var c = "";
-        _.reduce(this.tdClassCalculators, function(classes, func) {
-            var additionalClass = func(field, rowData)
+        c = _.reduce(this.tdClassCalculators, function(classes, func) {
+            var additionalClass = func(field, rowData);
             return classes+" "+additionalClass;
         }, c);
         return c;
