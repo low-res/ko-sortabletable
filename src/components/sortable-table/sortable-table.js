@@ -140,6 +140,19 @@ define([
         return c;
     }
 
+
+    /**
+     * execute rowOption[0] on row click, if
+     * we have only one rowOption
+     */
+    p.handleRowClick = function (  ) {
+        if(this.rowOptions.length == 1) {
+            var c = this.rowOptions[0].callback;
+            console.log( "handleRowClick", arguments );
+            c( arguments );
+        }
+    }
+
     /******************
      *  PRIVATE METHODS
      ******************/

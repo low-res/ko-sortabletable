@@ -26,16 +26,16 @@
             </th>
             <!-- /ko -->
 
-            <!-- ko if:$component.rowOptions.length > 0 -->
+            <!-- ko if:$component.rowOptions.length > 1 -->
             <th>
-                <!-- ko if:!searchable -->&nbsp<!-- /ko -->
+                &nbsp
             </th>
             <!-- /ko -->
         </tr>
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-            <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
+            <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index), click:$component.handleRowClick ">
                 <!-- ko foreach: $component.columnFields -->
                 <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
                     {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
@@ -52,7 +52,7 @@
                 </td>
                 <!-- /ko -->
 
-                <!-- ko if: $component.searchable &&  $component.rowOptions.length == 0 -->
+                <!-- ko if: $component.rowOptions.length > 1 -->
                 <td>&nbsp;</td>
                 <!-- /ko -->
             </tr>
