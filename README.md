@@ -15,7 +15,7 @@ Allowed params for this component are:
 
     rowOptions - array of actions that should be available per row. every action is wrapped in an JS object in this form: 
                 {title:"edit", icon:"fa fa-pencil", callback:_.bind(this.editEntity, this)}
-    
+    headerOptions - see rowOptions. But this would create buttons above the table and ist for tablewide actions
     no_tabledata_msg - translateable messagelabel for empty tabeldata. default: 'no_tabledata_msg';
     customTableClass - custm css class for widget wrapper for easier styling. default:"";
     headline - optinal, translateable headline-label for the widget. default:""

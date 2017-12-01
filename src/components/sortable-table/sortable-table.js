@@ -16,6 +16,7 @@ define([
         this.originalTabledata  = params.tabledata;
         this.columnFields       = params.fieldsCollection;
         this.rowOptions         = params.rowOptions || [];
+        this.headerOptions      = params.rowOptions || [];
         this.trClassCalculators = params.trClassCalculators || [];
         this.tdClassCalculators = params.tdClassCalculators || [];
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';

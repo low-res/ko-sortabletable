@@ -1,10 +1,25 @@
 <div class="table-responsive sortable-table-widget {{customTableClass}}">
-    <div class="header">
+    <div class="header clearfix">
         <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-        <!-- ko if: exportable --> <div class="csv-export" data-bind="click:exportAsCsv">csv export</div> <!-- /ko -->
+        <div class="options">
+            <!-- ko foreach: $component.headerOptions -->
+            <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                <span class="{{$data.icon}}"></span>
+            </button>
+            <!-- /ko -->
 
-        <!-- ko if:searchable -->
+            <!-- ko if: exportable -->
+            <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                <span class="fa fa-download"></span>
+            </button>
+            <div class="csv-export" data-bind="click:exportAsCsv">csv export</div>
+            <!-- /ko -->
+
+        </div>
+
+
+        <!-- ko if:searchable && visibleTabledata().length > 0 -->
         <div class="input-group search">
             <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
             <div class="input-group-addon">
@@ -60,6 +75,6 @@
     <!-- /ko -->
 
     <!-- ko if:visibleTabledata().length == 0 -->
-    <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
+    <p class="clearfix no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
     <!-- /ko -->
 </div>
