@@ -122,7 +122,7 @@ define([
     
     
     p.calculateTRcssClass = function (rowData, index) {
-        var c = index%2==0 ? "even " : "odd ";
+        var c = ko.utils.unwrapObservable(index)%2==0 ? "even " : "odd ";
         _.reduce(this.trClassCalculators, function(classes, func) {
             var additionalClass = func(rowData, index)
             return classes+" "+additionalClass;
@@ -145,11 +145,10 @@ define([
      * execute rowOption[0] on row click, if
      * we have only one rowOption
      */
-    p.handleRowClick = function (  ) {
+    p.handleRowClick = function ( item ) {
         if(this.rowOptions.length == 1) {
             var c = this.rowOptions[0].callback;
-            console.log( "handleRowClick", arguments );
-            c( arguments );
+            c( item );
         }
     }
 

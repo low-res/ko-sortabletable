@@ -42,7 +42,7 @@
                 </td>
                 <!-- /ko -->
 
-                <!-- ko if:$component.rowOptions.length > 0 -->
+                <!-- ko if:$component.rowOptions.length > 1 -->
                 <td class="options">
                     <!-- ko foreach: $component.rowOptions -->
                     <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
@@ -50,10 +50,6 @@
                     </button>
                     <!-- /ko -->
                 </td>
-                <!-- /ko -->
-
-                <!-- ko if: $component.rowOptions.length > 1 -->
-                <td>&nbsp;</td>
                 <!-- /ko -->
             </tr>
         </tbody>
