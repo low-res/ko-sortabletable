@@ -5,15 +5,16 @@
         <div class="options">
             <!-- ko foreach: $component.headerOptions -->
             <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                {{ $data.title | translate }}
                 <span class="{{$data.icon}}"></span>
             </button>
             <!-- /ko -->
 
             <!-- ko if: exportable -->
             <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                {{ "CSV Export" | translate }}
                 <span class="fa fa-download"></span>
             </button>
-            <div class="csv-export" data-bind="click:exportAsCsv">csv export</div>
             <!-- /ko -->
 
         </div>
