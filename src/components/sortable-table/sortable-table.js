@@ -20,7 +20,7 @@ define([
         this.tdClassCalculators = params.tdClassCalculators || [];
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
         this.customTableClass   = params.customTableClass || "";
-        this.widgetHeadline     = params.headline || "";
+        this.headline           = params.headline || "";
 
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");
