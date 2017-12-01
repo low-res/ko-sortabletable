@@ -2,7 +2,7 @@
     <div class="header clearfix">
         <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-        <!-- ko if:searchable && visibleTabledata().length > 0 -->
+        <!-- ko if:searchable && originalTabledata().length > 0 -->
         <div class="input-group search pull-right">
             <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
             <div class="input-group-addon">
@@ -73,7 +73,7 @@
     </table>
     <!-- /ko -->
 
-    <!-- ko if:visibleTabledata().length == 0 -->
-    <p class="clearfix no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
+    <!-- ko if:originalTabledata().length == 0 -->
+        <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
     <!-- /ko -->
 </div>
