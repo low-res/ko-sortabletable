@@ -1,3 +1,4 @@
+/* */
 define([
     'knockout',
     'lodash',
@@ -22,11 +23,16 @@ define([
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
         this.customTableClass   = params.customTableClass || "";
         this.headline           = params.headline || "";
+        this.forceRowClick      = params.forceRowClick || false; // explicitly execute first rowOption on row-click, if we have more than one option
 
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");
 
         this.searchable         = params.searchable && true;
+        this.hasData            = ko.pureComputed( function () {
+            var d = ko.utils.unwrapObservable(self.originalTabledata);
+            return d.length > 0;
+        });
         this.searchTerm         = ko.observable("");
 
         this.exportable         = params.exportable || false;
@@ -155,7 +161,7 @@ define([
      * we have only one rowOption
      */
     p.handleRowClick = function ( item ) {
-        if(this.rowOptions.length == 1) {
+        if( this.rowOptions.length > 0 && (this.rowOptions.length == 1 || this.forceRowClick) ) {
             var c = this.rowOptions[0].callback;
             c( item );
         }
@@ -219,10 +225,10 @@ define([
         })
     }
 
+
     p.dispose = function () {
         console.log( "-- dispose SortableTableWidget --" );
     };
-
 
 
     return {

@@ -2,31 +2,33 @@
     <div class="header clearfix">
         <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-        <!-- ko if:searchable && originalTabledata().length > 0 -->
-        <div class="input-group search pull-right">
-            <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-search"></span>
+        <!-- ko if: hasData -->
+
+            <!-- ko if:searchable -->
+            <div class="input-group search pull-right">
+                <input class="form-control" placeholder="Suchbegriff" type="text" data-bind="textInput:searchTerm">
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-search"></span>
+                </div>
             </div>
-        </div>
+            <!-- /ko -->
         <!-- /ko -->
 
-        <div class="options pull-right">
-            <!-- ko foreach: $component.headerOptions -->
-            <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                {{ $data.title | translate }}
-                <span class="{{$data.icon}}"></span>
-            </button>
-            <!-- /ko -->
+            <div class="options pull-right">
+                <!-- ko foreach: $component.headerOptions -->
+                <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    {{ $data.title | translate }}
+                    <span class="{{$data.icon}}"></span>
+                </button>
+                <!-- /ko -->
 
-            <!-- ko if: exportable -->
-            <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
-                {{ "CSV Export" | translate }}
-                <span class="fa fa-download"></span>
-            </button>
-            <!-- /ko -->
-        </div>
-
+                <!-- ko if: exportable && hasData -->
+                <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                    {{ "CSV Export" | translate }}
+                    <span class="fa fa-download"></span>
+                </button>
+                <!-- /ko -->
+            </div>
     </div>
 
 
@@ -49,23 +51,23 @@
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-            <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index), click:$component.handleRowClick ">
-                <!-- ko foreach: $component.columnFields -->
-                <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
-                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
-                </td>
-                <!-- /ko -->
+        <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index), click:$component.handleRowClick ">
+            <!-- ko foreach: $component.columnFields -->
+            <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
+                {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+            </td>
+            <!-- /ko -->
 
-                <!-- ko if:$component.rowOptions.length > 1 -->
-                <td class="options">
-                    <!-- ko foreach: $component.rowOptions -->
-                    <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                        <span class="{{$data.icon}}"></span>
-                    </button>
-                    <!-- /ko -->
-                </td>
+            <!-- ko if:$component.rowOptions.length > 1 -->
+            <td class="options">
+                <!-- ko foreach: $component.rowOptions -->
+                <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    <span class="{{$data.icon}}"></span>
+                </button>
                 <!-- /ko -->
-            </tr>
+            </td>
+            <!-- /ko -->
+        </tr>
         </tbody>
         <tfoot>
 
@@ -73,7 +75,7 @@
     </table>
     <!-- /ko -->
 
-    <!-- ko if:originalTabledata().length == 0 -->
-        <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
+    <!-- ko if:!hasData() -->
+    <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
     <!-- /ko -->
 </div>
