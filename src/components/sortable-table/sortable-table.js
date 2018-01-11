@@ -5,7 +5,7 @@ define([
     'low-res/ko-punches-additions',
     'cure53/DOMPurify',
     './sortable-table.html!text',
-    './sortable-table.css!css'
+    //'./sortable-table.css!css'
 ], function (ko, _, kopa, DOMPurify, templateMarkup) {
 
     var p = SortableTableWidget.prototype;
@@ -35,7 +35,11 @@ define([
         });
         this.searchTerm         = ko.observable("");
 
+        // csv export
         this.exportable         = params.exportable || false;
+        this.columnDelimiter    = params.columnDelimiter || ";";
+        this.columnWrapper      = params.columnWrapper != undefined ?  params.columnWrapper : "\"";
+        this.rowDelimiter       = params.rowDelimiter || "\n";
 
         this.visibleTabledata   = ko.pureComputed( function () {
             var t           = ko.utils.unwrapObservable(self.originalTabledata);
@@ -185,29 +189,40 @@ define([
 
 
     p._generateCSVString = function () {
+        var self            = this;
         var res             = "";
         var fields          = this.columnFields;
         var self            = this;
-        var columnDelimiter = ",";
-        var rowDelimiter    = "\n";
         var columnNames     = [];
         _.forEach( fields, function (field) {
             var l = window.kopa.translate(field.label);
+
+            l = self.columnWrapper+self._stripHtml(l)+self.columnWrapper;
             columnNames.push( l );
         });
-        console.log( columnNames );
-        res += columnNames.join(columnDelimiter);
-        res += rowDelimiter;
+
+        res += columnNames.join(self.columnDelimiter);
+        res += self.rowDelimiter;
 
         _.forEach( this.visibleTabledata(), function ( rowData ) {
             var rowValues = [];
+            var tmpValue;
             _.forEach( fields, function (field) {
-                rowValues.push( self._getFormatedFieldValue( field, rowData ) );
+                tmpValue = self.columnWrapper+field.getFieldValueForExport( rowData )+self.columnWrapper;
+                rowValues.push( tmpValue );
             });
-            res += rowValues.join(columnDelimiter);
-            res += rowDelimiter;
+            res += rowValues.join(self.columnDelimiter);
+            res += self.rowDelimiter;
         });
         return res;
+    }
+
+
+    p._stripHtml = function ( html ) {
+        var div = document.createElement("div");
+        div.innerHTML = html;
+        var text = div.textContent || div.innerText || "";
+        return text;
     }
 
 

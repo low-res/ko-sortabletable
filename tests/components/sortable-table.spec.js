@@ -1,14 +1,24 @@
 define([
+    "low-res/ko-punches-additions",
     "src/components/sortable-table/sortable-table",
     "low-res/ko-fielddefinitions/fieldsCollection",
-], function (SortableTableComp, FieldsCollection) {
+], function (kopa, SortableTableComp, FieldsCollection) {
 
     describe("sortable tabel", function () {
+
+        kopa.addCustomFormat('htmloutput', function( v, loc ) {
+            return "<p>"+v+"</p>";
+        });
+
+        kopa.addCustomFormat('exportoutput', function( v, loc ) {
+            return v;
+        });
+
         var SortableTable = SortableTableComp.viewModelClass;
 
         var fieldcollection = new FieldsCollection({
             fields:[
-                {name:'field1', label:'mylabel1', valueAccessor:'field1' },
+                {name:'field1', label:'mylabel1', valueAccessor:'field1', outputFormat:'htmloutput' },
                 {name:'field2', label:'mylabel2', valueAccessor:'field2'},
                 {name:'field3', label:'mylabel3', valueAccessor:'field3'}
             ],
@@ -16,6 +26,7 @@ define([
                 {name:'overview', fields:['field1','field2','field3']}
             ]
         });
+
         var tabledata = [
             { field1:1, field2:2, field3:3 },
             { field1:2, field2:3, field3:1 },
@@ -75,9 +86,31 @@ define([
         })
 
         it('should generate csv data from visible tabledata', function () {
-            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns});
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, columnDelimiter:",", columnWrapper:""});
             var csvString = t._generateCSVString();
-            var expectedString = "mylabel1,mylabel2,mylabel3\n1,2,3\n2,3,1\n3,1,2\n";
+            var expectedString = "mylabel1,mylabel2,mylabel3\n<p>1</p>,2,3\n<p>2</p>,3,1\n<p>3</p>,1,2\n";
+
+            expect(csvString).toEqual(expectedString)
+        });
+
+        it('should generate csv data and use exportFormat if set', function () {
+            var fieldcollection2 = new FieldsCollection({
+                fields:[
+                    {name:'field1', label:'mylabel1', valueAccessor:'field1', exportFormat:"", outputFormat:'htmloutput' },
+                    {name:'field2', label:'mylabel2', valueAccessor:'field2'},
+                    {name:'field3', label:'mylabel3', valueAccessor:'field3'}
+                ],
+                collections: [
+                    {name:'overview', fields:['field1','field2','field3']}
+                ]
+            });
+
+
+            var columns2 = fieldcollection2.getCollectionFields('overview');
+
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns2, columnDelimiter:",", columnWrapper:"\""});
+            var csvString = t._generateCSVString();
+            var expectedString = '"mylabel1","mylabel2","mylabel3"\n"1","2","3"\n"2","3","1"\n"3","1","2"\n';
 
             expect(csvString).toEqual(expectedString)
         });
