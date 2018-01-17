@@ -60,11 +60,13 @@
 
             <!-- ko if:$component.rowOptions.length > 1 -->
             <td class="options">
-                <!-- ko foreach: $component.rowOptions -->
-                <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                    <span class="{{$data.icon}}"></span>
-                </button>
-                <!-- /ko -->
+                <div class="holder">
+                    <!-- ko foreach: $component.rowOptions -->
+                    <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                        <span class="{{$data.icon}}"></span>
+                    </button>
+                    <!-- /ko -->
+                </div>
             </td>
             <!-- /ko -->
         </tr>
