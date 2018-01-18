@@ -5,7 +5,7 @@ define([
     'low-res/ko-punches-additions',
     'cure53/DOMPurify',
     './sortable-table.html!text',
-    //'./sortable-table.css!css'
+    './sortable-table.css!css'
 ], function (ko, _, kopa, DOMPurify, templateMarkup) {
 
     var p = SortableTableWidget.prototype;
