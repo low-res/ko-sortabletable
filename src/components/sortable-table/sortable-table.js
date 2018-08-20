@@ -47,7 +47,7 @@ define([
             return rpp > 0 ? Math.ceil( otd.length / rpp ) : 1;
         });
         this.rowsPerPage.subscribe( function(v) {
-            console.log( "rowsPerPage.subscribe", v );
+            console.log( "rowsPerPage.subscribe", v, self.pagination );
             setTimeout( function () {
                 self.selectPage( self.currentPageIdx() );
             }, 50 );
@@ -86,6 +86,9 @@ define([
                     }, false );
                     return isSearchtermIncluded;
                 });
+
+                // reset pagination on filtering
+                self.currentPageIdx(0);
             }
 
             // pagination
@@ -96,7 +99,7 @@ define([
             }
 
             return t;
-        })
+        });
 
         // make sure kopa filters are available
         if(!ko.filters.translate) kopa.init();
