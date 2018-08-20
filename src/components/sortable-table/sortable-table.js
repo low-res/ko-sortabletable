@@ -60,18 +60,12 @@ define([
         this.columnWrapper      = params.columnWrapper != undefined ?  params.columnWrapper : "\"";
         this.rowDelimiter       = params.rowDelimiter || "\n";
 
-        this.visibleTabledata   = ko.pureComputed( function () {
+        // the sorted and filtered result of the original table data
+        this.sortedAndFilteredTabledata   = ko.pureComputed( function () {
             var t           = ko.utils.unwrapObservable(self.originalTabledata);
             var direction   = self.sortByDirection();
             var sortField   = self.sortByField();
             var searchterm  = self.searchTerm();
-
-            // sorting
-            if( sortField ) {
-                t = _.orderBy(t, function ( tableRow ) {
-                    return sortField.getFieldValue( tableRow );
-                }, direction );
-            }
 
             // filtering
             if(searchterm.length > 2) {
@@ -92,6 +86,20 @@ define([
                 self.currentPageIdx(0);
             }
 
+            // sorting
+            if( sortField ) {
+                t = _.orderBy(t, function ( tableRow ) {
+                    return sortField.getFieldValue( tableRow );
+                }, direction );
+            }
+
+            return t;
+        });
+
+        // the actually visible rows of the filteredAndSorted rows
+        this.visibleTabledata   = ko.pureComputed( function () {
+            var t           = ko.utils.unwrapObservable(self.sortedAndFilteredTabledata);
+
             // pagination
             var rpp = self.rowsPerPage();
             if(self.pagination && rpp > 0 ) {
@@ -101,6 +109,7 @@ define([
 
             return t;
         });
+
 
         // make sure kopa filters are available
         if(!ko.filters.translate) kopa.init();
@@ -257,7 +266,7 @@ define([
         res += columnNames.join(self.columnDelimiter);
         res += self.rowDelimiter;
 
-        _.forEach( this.visibleTabledata(), function ( rowData ) {
+        _.forEach( this.sortedAndFilteredTabledata(), function ( rowData ) {
             var rowValues = [];
             var tmpValue;
             _.forEach( fields, function (field) {

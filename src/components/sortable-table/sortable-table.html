@@ -74,22 +74,20 @@
         <tfoot>
             <!-- ko if: pagination === true -->
             <tr class="pagination">
-                <td class="prev">
-                    <button data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
-                </td>
+                <td  colspan="{{$component.columnFields.length}}">
+                    <button class="prev" data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
 
-                <td class="pages" colspan="{{$component.columnFields.length-2}}">
-                    {{ currentPageIdx() + 1 }} / {{ numPages }}
-                    &nbsp;
-                    {{ rows_per_page_msg | translate }}
-                    <select data-bind="
-                        options: rowsPerPageSelection,
-                        value: rowsPerPage
-                       "></select>
-                </td>
+                    <span class="pages">
+                        {{ currentPageIdx() + 1 }} / {{ numPages }}
+                        &nbsp;
+                        {{ rows_per_page_msg | translate }}
+                        <select data-bind="
+                            options: rowsPerPageSelection,
+                            value: rowsPerPage
+                           "></select>
+                    </span>
 
-                <td class="next">
-                    <button data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
+                    <button class="next" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
                 </td>
 
             </tr>
