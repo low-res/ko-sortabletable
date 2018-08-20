@@ -24,3 +24,10 @@ Allowed params for this component are:
     trClassCalculators - array of functions that return css classes that should be asigned to table rows. Given Functions are called with two parameters (rowData, index)
     tdClassCalculators - array of functions that return css classes that should be asigned to table cells. Given Functions are called with two parameters (rowData, index)
 
+## start demo
+
+Start local http Server (https://github.com/indexzero/http-server)
+
+    http-server ./ -p 9876
+    
+> http://127.0.0.1:9876/demo/    

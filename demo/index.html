@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sortable Table Demo</title>
+
+        <script src="../jspm_packages/system.js" type="application/javascript"></script>
+        <script src="../config.js" type="application/javascript"></script>
+        <script>
+            System.config({
+                paths: {
+                    "github:*": "../jspm_packages/github/*",
+                    "npm:*": "../jspm_packages/npm/*"
+                },
+
+                map: {
+                    'low-res/ko-sortabletable':'../src/index',
+                    'low-res/validator':"github:low-res/validator@master",
+                    'sprintf-js': 'npm:sprintf-js@1.1.1',
+                    "moment": "npm:moment@2.20.1",
+                    "numeral": "npm:numeral@2.0.6"
+                }
+            });
+            SystemJS.import('./index.js');
+        </script>
+</head>
+<body>
+    <h1>Sortable Table Demo</h1>
+    <ko-sortabletable params ="
+        tabledata: tabledata,
+        headline: 'overview_',
+        fieldsCollection:columns,
+        sortable:true,
+        pagination:true,
+        rowsPerPage:5
+    "></ko-sortabletable>
+</body>
+</html>

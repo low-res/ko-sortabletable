@@ -72,7 +72,28 @@
         </tr>
         </tbody>
         <tfoot>
+            <!-- if: pagination -->
+            <tr class="pagination">
+                <td>
+                    <button data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
+                </td>
 
+                <td>
+                    {{ currentPageIdx() + 1 }} / {{ numPages }}
+                    &nbsp;
+                    {{ rows_per_page_msg | translate }}
+                    <select data-bind="
+                        options: rowsPerPageSelection,
+                        value: rowsPerPage
+                       "></select>
+                </td>
+
+                <td>
+                    <button data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
+                </td>
+
+            </tr>
+            <!-- /ko -->
         </tfoot>
     </table>
     <!-- /ko -->

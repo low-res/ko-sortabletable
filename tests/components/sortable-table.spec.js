@@ -115,6 +115,55 @@ define([
             expect(csvString).toEqual(expectedString)
         });
 
+        it('should paginate tablerows and show only a fixed number of rows per page', function(){
+            var d = ko.observableArray([
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" }
+            ]);
+            var t = new SortableTable({tabledata:d, fieldsCollection:columns, pagination:true, rowsPerPage:5});
+            expect(t.visibleTabledata().length).toEqual(5);
+            expect(t.numPages()).toEqual(3);
+            expect(t.currentPageIdx()).toEqual(0);
+        });
+
+        it('should be able to step through pages', function(){
+            var d = ko.observableArray([
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" }
+            ]);
+            var t = new SortableTable({tabledata:d, fieldsCollection:columns, pagination:true, rowsPerPage:5});
+            expect(t.visibleTabledata().length).toEqual(5);
+            t.nextPage();
+            expect(t.currentPageIdx()).toEqual(1);
+            t.nextPage();
+            expect(t.currentPageIdx()).toEqual(2);
+            t.nextPage();
+            expect(t.currentPageIdx()).toEqual(2);
+            t.prevPage();
+            expect(t.currentPageIdx()).toEqual(1);
+            t.selectPage(0);
+            expect(t.currentPageIdx()).toEqual(0);
+        });
     })
 
 });

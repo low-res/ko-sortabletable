@@ -21,6 +21,7 @@ define([
         this.trClassCalculators = params.trClassCalculators || [];
         this.tdClassCalculators = params.tdClassCalculators || [];
         this.no_tabledata_msg   = params.no_tabledata_msg || 'no_tabledata_msg';
+        this.rows_per_page_msg  = params.rows_per_page_msg || 'rows_per_page_msg';
         this.customTableClass   = params.customTableClass || "";
         this.headline           = params.headline || "";
         this.forceRowClick      = params.forceRowClick || false; // explicitly execute first rowOption on row-click, if we have more than one option
@@ -34,6 +35,23 @@ define([
             return d.length > 0;
         });
         this.searchTerm         = ko.observable("");
+
+        // pagination
+        this.pagination         = params.pagination || false;
+        this.rowsPerPage        = ko.observable( params.rowsPerPage || 0);
+        this.rowsPerPageSelection=ko.observableArray( params.rowsPerPageSelection || [25, 50, 100, 250] );
+        this.currentPageIdx     = ko.observable(0);
+        this.numPages           = ko.pureComputed( function () {
+            var otd = ko.utils.unwrapObservable(self.originalTabledata);
+            var rpp = self.rowsPerPage();
+            return rpp > 0 ? Math.ceil( otd.length / rpp ) : 1;
+        });
+        this.rowsPerPage.subscribe( function(v) {
+            console.log( "rowsPerPage.subscribe", v );
+            setTimeout( function () {
+                self.selectPage( self.currentPageIdx() );
+            }, 50 );
+        });
 
         // csv export
         this.exportable         = params.exportable || false;
@@ -68,6 +86,13 @@ define([
                     }, false );
                     return isSearchtermIncluded;
                 });
+            }
+
+            // pagination
+            var rpp = self.rowsPerPage();
+            if(self.pagination && rpp > 0 ) {
+                var startIdx = self.currentPageIdx() * rpp;
+                t = _.slice(t, startIdx, startIdx + rpp)
             }
 
             return t;
@@ -171,6 +196,30 @@ define([
         }
     }
 
+    
+    p.nextPage = function() {
+        var c = this.currentPageIdx();
+        this.selectPage(c+1);
+    }
+
+
+    p.prevPage = function(){
+        var c = this.currentPageIdx();
+        this.selectPage(c-1);
+    }
+
+
+    p.selectPage = function (idx) {
+        console.log( "selectPage", idx );
+        if(idx >= 0 && idx < this.numPages() ) this.currentPageIdx(idx);
+        else {
+            if(idx < 0 ) this.currentPageIdx(0);
+            if(idx >= this.numPages() ) this.currentPageIdx(this.numPages()-1);
+        }
+
+
+        console.log( "this.currentPageIdx", this.currentPageIdx() );
+    }
 
     /******************
      *  PRIVATE METHODS
