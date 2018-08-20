@@ -10,6 +10,7 @@ define([
 
     var p = SortableTableWidget.prototype;
 
+
     function SortableTableWidget(params) {
 
         if( !params.tabledata || !params.fieldsCollection ) throw(new Error("You MUST profide at lease a value for tabledata and a value for fieldsCollection!"));

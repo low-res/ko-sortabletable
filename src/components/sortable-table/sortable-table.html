@@ -78,7 +78,7 @@
                     <button data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
                 </td>
 
-                <td>
+                <td colspan="{{$component.columnFields.length-2}}">
                     {{ currentPageIdx() + 1 }} / {{ numPages }}
                     &nbsp;
                     {{ rows_per_page_msg | translate }}
