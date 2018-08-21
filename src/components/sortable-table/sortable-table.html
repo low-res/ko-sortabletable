@@ -81,6 +81,8 @@
                         {{ currentPageIdx() + 1 }} / {{ numPages }}
                     </span>
 
+                    <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
+
                     <span class="numrowsselection">
                     {{ rows_per_page_msg | translate }}
                     <select data-bind="
@@ -89,7 +91,6 @@
                            "></select>
                     </span>
 
-                    <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
                 </td>
 
             </tr>
