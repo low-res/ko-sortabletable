@@ -14,7 +14,7 @@ define([
     function SortableTableWidget(params) {
 
         if( !params.tabledata || !params.fieldsCollection ) throw(new Error("You MUST profide at lease a value for tabledata and a value for fieldsCollection!"));
-        var self = this;
+        var self                = this;
         this.originalTabledata  = params.tabledata;
         this.columnFields       = params.fieldsCollection;
         this.rowOptions         = params.rowOptions || [];
@@ -70,7 +70,7 @@ define([
             // filtering
             if(searchterm.length > 2) {
                 t = _.filter(t, function ( tableRow ) {
-                    var fields = ko.utils.unwrapObservable(self.columnFields)
+                    var fields = ko.utils.unwrapObservable( self.columnFields )
                     var isSearchtermIncluded = _.reduce( fields, function (isIncluded, tmpField) {
                         // console.log( isIncluded, tmpField );
                         var val = tmpField.getFormatedFieldValue( tableRow ) || "";
@@ -102,14 +102,13 @@ define([
 
             // pagination
             var rpp = self.rowsPerPage();
-            if(self.pagination && rpp > 0 ) {
+            if(self.pagination && rpp > 0  ) {
                 var startIdx = self.currentPageIdx() * rpp;
                 t = _.slice(t, startIdx, startIdx + rpp)
             }
 
             return t;
         });
-
 
         // make sure kopa filters are available
         if(!ko.filters.translate) kopa.init();

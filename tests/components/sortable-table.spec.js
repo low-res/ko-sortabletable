@@ -164,6 +164,32 @@ define([
             t.selectPage(0);
             expect(t.currentPageIdx()).toEqual(0);
         });
+
+        it('should render fast even if we have thousands of rows in original tabledata ', function(){
+            var rawdata = [];
+            var numRows = 10000000;
+
+            for( var i = 0; i < numRows; i++ ) {
+                rawdata.push(
+                    {
+                        field1: Math.ceil(Math.random()*1000),
+                        field2: Math.ceil(Math.random()*1000),
+                        field3: Math.ceil(Math.random()*1000)
+                    }
+                );
+            }
+
+            console.time("emptyArray");
+            var originalTableData = ko.observableArray([]);
+            var t = new SortableTable({tabledata:originalTableData, fieldsCollection:columns});
+            console.timeEnd("emptyArray");
+
+            console.time("bigArray");
+            originalTableData(rawdata);
+            originalTableData.valueHasMutated();
+            console.timeEnd("bigArray");
+            expect( t.visibleTabledata().length ).toEqual(2);
+        });
     })
 
 });

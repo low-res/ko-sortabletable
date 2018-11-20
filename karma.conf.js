@@ -23,6 +23,7 @@ module.exports = function(config) {
                 './jspm_packages/**/*.js',
                 './src/**/*.js',
                 './src/**/*.html',
+                './src/**/*.css'
             ],
 
             // SystemJS configuration specifically for tests, added after your config file.

@@ -32,7 +32,14 @@ define( [
         {col1: 13, col2: "Yxyz"},
         {col1: 14, col2: "Wxyz"},
         {col1: 15, col2: "Vxyz"}
-    ]
+    ];
+
+    var numrows = 10000;
+    for(var i = 0; i < numrows; i++) {
+        this.tabledata.push(
+            {col1: i, col2: Math.random().toString(36).substring(2, 15) }
+        );
+    }
 
     console.log( "start" );
     ko.applyBindings(  );
