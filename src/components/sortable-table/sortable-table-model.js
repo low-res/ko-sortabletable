@@ -455,7 +455,8 @@ define([
                         case "sortByFields":
                             // recreate Field-Objects
                             tmpValue = _.map(tmpValue, function (tmpfield) {
-                                return { field: new Field(tmpfield.field), direction:tmpfield.direction};
+                                var f = _.find( self.columnFields, {name: tmpfield.field.name} );
+                                return { field: f, direction:tmpfield.direction};
                             });
                             self.sortByFields(tmpValue);
                             break;
