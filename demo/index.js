@@ -1,8 +1,9 @@
 define( [
     'knockout',
+    'lodash',
     'low-res/ko-fielddefinitions/fieldsCollection',
     'low-res/ko-sortabletable'
-], function ( ko, FieldsCollection ) {
+], function ( ko, _, FieldsCollection ) {
 
     this.fields = new FieldsCollection({
         fields:[
@@ -34,12 +35,37 @@ define( [
         {col1: 15, col2: "Vxyz"}
     ];
 
-    var numrows = 10000;
+    var numrows = 50000;
     for(var i = 0; i < numrows; i++) {
         this.tabledata.push(
             {col1: i, col2: Math.random().toString(36).substring(2, 15) }
         );
     }
+
+    this.deleteRow = function(){
+        console.log( "delete row called", arguments )
+    };
+
+    this.multiEdit = function(){
+        console.log( "multiEdit called", arguments );
+        var p = new Promise( function (resolve, reject) {
+            setTimeout( function() {
+                console.log( "resolve" );
+                reject();
+            }, 1000);
+        });
+        return p;
+    };
+
+    this.multiRowActions = [
+        {title:"multiedit", icon:"fa fa-edit", callback:_.bind(this.multiEdit, this)},
+        {title:"multidelete", icon:"fa fa-edit", callback:_.bind(this.multiEdit, this)},
+    ];
+
+    this.rowOptions = [
+        {title:"edit", icon:"fa fa-edit", callback:_.bind(this.multiEdit, this)},
+        {title:"delete", icon:"fa fa-delete", callback:_.bind(this.deleteRow, this)}
+    ];
 
     console.log( "start" );
     ko.applyBindings(  );

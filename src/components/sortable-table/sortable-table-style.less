@@ -33,16 +33,28 @@
   .sorting {
     background-image: url('/assets/img/sort_both.png');
     .soringBgPosition();
+
+    &:after {
+      content: "   ";
+    }
   }
 
   .sorting_asc {
     background-image: url('/assets/img/sort_asc.png');
     .soringBgPosition();
+
+    &:after {
+      content: "  >";
+    }
   }
 
   .sorting_desc {
     background-image: url('/assets/img/sort_desc.png');
     .soringBgPosition();
+
+    &:after {
+      content: "<  ";
+    }
   }
 
   .sorting_asc_disabled {
@@ -60,21 +72,23 @@
     outline: none;
   }
 
-  .search {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    width: 250px;
+  .table-search {
+    .clear-search {
+      &:before {content: "x"; }
+    }
+  }
 
-    .searchicon {
-      top: 14px;
-      right: 17px;
-      opacity: 0.5;
+  tr {
+    &.even {
+      background: transparent;
+    }
 
-      &:hover {
-        opacity: 1;
-        cursor: pointer;
-      }
+    &.odd {
+      background: #eee;
+    }
+
+    &.selected {
+      background: #ffd;
     }
   }
 }

@@ -44,8 +44,14 @@ define([
             var f = fieldcollection.getField("field2");
             expect(t.visibleTabledata()[0]).toEqual(tabledata[0]);
 
-            t.sortBy(f);
+            t.sortBy( f );
             expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
+        });
+
+        it('should be possible to pass sortparameters', function(){
+            var f = fieldcollection.getField("field2");
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, sorting:[ {field:f, direction:'asc'} ]});
+            expect(t.visibleTabledata()[0]).toEqual( tabledata[2] );
         });
 
         it('should change the sortdirection if sortBy is called with the same field twice', function () {
@@ -57,6 +63,68 @@ define([
             expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
             t.sortBy(f);
             expect(t.visibleTabledata()[0]).toEqual(tabledata[1]);
+        });
+
+        it('should handle multiple sortFields', function(){
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns});
+            var f1 = fieldcollection.getField("field1");
+            var f2 = fieldcollection.getField("field2");
+
+            expect( t.sortByFields() ).toEqual( [] );
+
+            t.sortBy(f1);
+
+            expect( t.sortByFields().length ).toEqual( 1 );
+            expect( t.sortByFields()[0].field ).toEqual( f1 );
+            expect( t.sortByFields()[0].direction ).toEqual( "asc" );
+
+            t.sortBy(f1);
+
+            expect( t.sortByFields()[0].direction ).toEqual( "desc" );
+
+            t.sortBy(f2, {shiftKey:true});
+
+            expect( t.sortByFields().length ).toEqual( 2 );
+            expect( t.sortByFields()[1].field ).toEqual( f2 );
+            expect( t.sortByFields()[1].direction ).toEqual( "asc" );
+
+            t.sortBy(f2, {shiftKey:true});
+
+            expect( t.sortByFields()[1].direction ).toEqual( "desc" );
+
+            t.sortBy(f2);
+
+            expect( t.sortByFields().length ).toEqual( 1 );
+            expect( t.sortByFields()[0].field ).toEqual( f2 );
+        });
+
+        it('should sort table by multiple sortfields', function(){
+            var tabledata = [
+                { field1:1, field2:"b", field3:1 },
+                { field1:1, field2:"a", field3:3 },
+                { field1:2, field2:"c", field3:2 }
+            ];
+
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns});
+            var f1 = fieldcollection.getField("field1");
+            var f2 = fieldcollection.getField("field2");
+            var f3 = fieldcollection.getField("field3");
+
+            t.sortBy( f1 );
+            expect(t.visibleTabledata()[0]).toEqual(tabledata[0]);
+
+            t.sortBy( f1 );
+            expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
+
+            t.sortBy( f2, {shiftKey:true} );
+            expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
+            expect(t.visibleTabledata()[1]).toEqual(tabledata[1]);
+            expect(t.visibleTabledata()[2]).toEqual(tabledata[0]);
+
+            t.sortBy( f2, {shiftKey:true} );
+            expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
+            expect(t.visibleTabledata()[1]).toEqual(tabledata[0]);
+            expect(t.visibleTabledata()[2]).toEqual(tabledata[1]);
         });
 
         it('should work with observableArray as tabledata and reflect changes to the original table data', function () {
@@ -72,18 +140,27 @@ define([
             expect(t.visibleTabledata().length).toEqual(4);
         });
         
-        it('should show only row that contain the searchword', function () {
+        it('should show only rows that contain the searchword', function () {
             var d = ko.observableArray([
                 { field1:"xyz", field2:"xyz", field3:"xyz" },
                 { field1:"xyz", field2:"aaa", field3:"xyz" },
                 { field1:"aaa", field2:"xyz", field3:"xyz" }
             ]);
-            console.log( fieldcollection );
             var t = new SortableTable({tabledata:d, fieldsCollection:columns});
             expect(t.visibleTabledata().length).toEqual(3);
             t.searchTerm('aaa');
             expect(t.visibleTabledata().length).toEqual(2);
-        })
+        });
+
+        it('should be possible to pass searchword', function() {
+            var d = ko.observableArray([
+                { field1:"xyz", field2:"xyz", field3:"xyz" },
+                { field1:"xyz", field2:"aaa", field3:"xyz" },
+                { field1:"aaa", field2:"xyz", field3:"xyz" }
+            ]);
+            var t = new SortableTable({tabledata:d, fieldsCollection:columns, searchterm:'aaa'});
+            expect(t.visibleTabledata().length).toEqual(2);
+        });
 
         it('should generate csv data from visible tabledata', function () {
             var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, columnDelimiter:",", columnWrapper:""});
@@ -165,31 +242,99 @@ define([
             expect(t.currentPageIdx()).toEqual(0);
         });
 
-        it('should render fast even if we have thousands of rows in original tabledata ', function(){
-            var rawdata = [];
-            var numRows = 10000000;
+        it('should serialize tablesettings', function(){
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
+            t.searchTerm("abc");
+            t.sortByFields([]);
+            t.rowsPerPage(100);
+            t.currentPageIdx(0);
 
-            for( var i = 0; i < numRows; i++ ) {
-                rawdata.push(
-                    {
-                        field1: Math.ceil(Math.random()*1000),
-                        field2: Math.ceil(Math.random()*1000),
-                        field3: Math.ceil(Math.random()*1000)
-                    }
-                );
-            }
+            var expected = {
+                searchTerm:t.searchTerm(),
+                sortByFields: t.sortByFields(),
+                rowsPerPage: t.rowsPerPage(),
+                currentPageIdx: t.currentPageIdx()
+            };
 
-            console.time("emptyArray");
-            var originalTableData = ko.observableArray([]);
-            var t = new SortableTable({tabledata:originalTableData, fieldsCollection:columns});
-            console.timeEnd("emptyArray");
+            expected = JSON.stringify(expected);
 
-            console.time("bigArray");
-            originalTableData(rawdata);
-            originalTableData.valueHasMutated();
-            console.timeEnd("bigArray");
-            expect( t.visibleTabledata().length ).toEqual(2);
+            var serialized = t._serializeSettings();
+
+            expect(serialized).toEqual(expected);
         });
+
+        it('should store the table settings on dispose', function(){
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
+            t.searchTerm("abc");
+            var settings = t._serializeSettings();
+            t.dispose();
+            var s = window.localStorage.getItem( t.getSettingsId() );
+            expect(s).not.toBeNull();
+
+            expect(settings).toEqual(s);
+
+            window.localStorage.removeItem( t.getSettingsId() );
+
+        });
+
+        it('should recover the tablesettings on creation', function() {
+            var storedSettings = JSON.stringify( {searchTerm:"xyz"} );
+            window.localStorage.setItem("sortabletable-myTable", storedSettings);
+
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
+
+            expect(t.searchTerm()).toEqual('xyz');
+
+            window.localStorage.removeItem( t.getSettingsId() );
+        });
+
+        it('should be possible to select multiple rows', function() {
+
+            var multiRowActions = [
+                {title:"", icon:"", callback: function(){} }
+            ];
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, multiRowActions:multiRowActions});
+            
+            expect(t.selectedRows()).toBeDefined();
+            expect(t.selectedRows().length).toEqual(0);
+
+        });
+
+        it('should calculate if rowoptions are shown or not ', function() {
+            var rowOptions1 = [
+                {title:"", icon:"", callback: function(){} }
+            ];
+
+            var rowOptions2 = [
+                {title:"", icon:"", callback: function(){} },
+                {title:"", icon:"", callback: function(){} }
+            ];
+
+            var t1 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, rowOptions:rowOptions1, forceRowClick:true});
+            expect(t1.showRowOptions()).toBeFalsy();
+
+            var t2 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, rowOptions:rowOptions1, forceRowClick:false});
+            expect(t2.showRowOptions()).toBeTruthy();
+
+            var t3 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, rowOptions:rowOptions2, forceRowClick:true});
+            expect(t3.showRowOptions()).toBeTruthy();
+
+            var t4 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, rowOptions:rowOptions2, forceRowClick:false});
+            expect(t4.showRowOptions()).toBeTruthy();
+
+        });
+
+        it('should calculate if multiActions are shown or not', function(){
+            var multiRowActions = [
+                {title:"", icon:"", callback: function(){} }
+            ];
+            var t1 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, multiRowActions:multiRowActions});
+            expect(t1.showMultirowActions()).toBeTruthy();
+
+            var t2 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, multiRowActions:[]});
+            expect(t2.showMultirowActions()).toBeFalsy();
+        });
+
     })
 
 });

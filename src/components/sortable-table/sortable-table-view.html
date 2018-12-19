@@ -5,13 +5,27 @@
         <!-- ko if: hasData -->
 
             <!-- ko if:searchable -->
-            <div class="input-group search pull-right">
+            <div class="input-group search pull-right table-search">
                 <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
                 <div class="input-group-addon">
                     <span class="glyphicon glyphicon-search"></span>
                 </div>
+                <div class="clear-search" data-bind="click: clearSearch"></div>
             </div>
             <!-- /ko -->
+
+
+            <!-- ko if:showMultirowActions -->
+                <select data-bind="options: multiRowActions,
+                       optionsText: function(data){ return kopa.translate(data.title); },
+                       value: selectedmultirowAction,
+                       optionsCaption: 'Choose...'">
+                </select>
+                <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    {{ 'executeMultirowAction' | translate }}
+                </button>
+            <!-- /ko -->
+
         <!-- /ko -->
 
             <div class="options pull-right">
@@ -36,13 +50,14 @@
     <table class="table sortable">
         <thead>
         <tr>
+
             <!-- ko foreach: $component.columnFields -->
-            <th data-bind="click: function(){ $parent.sortBy($data);} , css: $parent.calculateColumnHeaderCssClass($data)">
+            <th data-bind="click: $parent.sortBy , css: $parent.calculateColumnHeaderCssClass($data)">
                 {{{ $data.label | translate }}}
             </th>
             <!-- /ko -->
 
-            <!-- ko if:$component.rowOptions.length > 1 -->
+            <!-- ko if: $component.showRowOptions() -->
             <th>
                 &nbsp
             </th>
@@ -52,13 +67,22 @@
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
         <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index), click:$component.handleRowClick ">
+
             <!-- ko foreach: $component.columnFields -->
             <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
-                {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+
+                <!-- ko if:$data.renderRaw -->
+                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                <!-- /ko -->
+
+                <!-- ko if:!$data.renderRaw -->
+                    {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                <!-- /ko -->
+
             </td>
             <!-- /ko -->
 
-            <!-- ko if:$component.rowOptions.length > 1 -->
+            <!-- ko if: $component.showRowOptions() -->
             <td class="options">
                 <div class="holder">
                     <!-- ko foreach: $component.rowOptions -->

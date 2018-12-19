@@ -25,13 +25,22 @@
   background-image: url('/assets/img/sort_both.png');
   background-position: right 0px bottom 12px;
 }
+.sortable-table-widget .table .sorting:after {
+  content: "   ";
+}
 .sortable-table-widget .table .sorting_asc {
   background-image: url('/assets/img/sort_asc.png');
   background-position: right 0px bottom 12px;
 }
+.sortable-table-widget .table .sorting_asc:after {
+  content: "  >";
+}
 .sortable-table-widget .table .sorting_desc {
   background-image: url('/assets/img/sort_desc.png');
   background-position: right 0px bottom 12px;
+}
+.sortable-table-widget .table .sorting_desc:after {
+  content: "<  ";
 }
 .sortable-table-widget .table .sorting_asc_disabled {
   background-image: url('/assets/img/sort_asc_disabled.png');
@@ -45,18 +54,15 @@
 .sortable-table-widget .table thead td:active {
   outline: none;
 }
-.sortable-table-widget .table .search {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 250px;
+.sortable-table-widget .table .table-search .clear-search:before {
+  content: "x";
 }
-.sortable-table-widget .table .search .searchicon {
-  top: 14px;
-  right: 17px;
-  opacity: 0.5;
+.sortable-table-widget .table tr.even {
+  background: transparent;
 }
-.sortable-table-widget .table .search .searchicon:hover {
-  opacity: 1;
-  cursor: pointer;
+.sortable-table-widget .table tr.odd {
+  background: #eee;
+}
+.sortable-table-widget .table tr.selected {
+  background: #ffd;
 }
