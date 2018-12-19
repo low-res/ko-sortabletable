@@ -3,8 +3,9 @@ define([
     'knockout',
     'lodash',
     'low-res/ko-punches-additions',
+    'low-res/ko-fielddefinitions/field',
     'cure53/DOMPurify',
-], function (ko, _, kopa, DOMPurify ) {
+], function (ko, _, kopa, Field, DOMPurify ) {
 
     var p = SortableTableWidgetViewModel.prototype;
 
@@ -449,6 +450,14 @@ define([
                     switch( attrName ) {
                         case "currentPageIdx":
                             self.selectPage( tmpValue );
+                            break;
+
+                        case "sortByFields":
+                            // recreate Field-Objects
+                            tmpValue = _.map(tmpValue, function (tmpfield) {
+                                return { field: new Field(tmpfield.field), direction:tmpfield.direction};
+                            });
+                            self.sortByFields(tmpValue);
                             break;
 
                         default:

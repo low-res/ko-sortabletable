@@ -2,7 +2,8 @@ define([
     "low-res/ko-punches-additions",
     "src/components/sortable-table/sortable-table",
     "low-res/ko-fielddefinitions/fieldsCollection",
-], function (kopa, SortableTableComp, FieldsCollection) {
+    "low-res/ko-fielddefinitions/field",
+], function (kopa, SortableTableComp, FieldsCollection, Field) {
 
     describe("sortable tabel", function () {
 
@@ -266,6 +267,10 @@ define([
         it('should store the table settings on dispose', function(){
             var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
             t.searchTerm("abc");
+
+            var f = fieldcollection.getField("field2");
+            t.sortBy( f );
+
             var settings = t._serializeSettings();
             t.dispose();
             var s = window.localStorage.getItem( t.getSettingsId() );
@@ -278,12 +283,24 @@ define([
         });
 
         it('should recover the tablesettings on creation', function() {
-            var storedSettings = JSON.stringify( {searchTerm:"xyz"} );
-            window.localStorage.setItem("sortabletable-myTable", storedSettings);
+            var storedString = '{"searchTerm":"xyz","sortByFields":[{"field":{"name":"field2","label":"mylabel2","valueAccessor":"field2","validation":""},"direction":"asc"}],"rowsPerPage":0,"currentPageIdx":0}';
+            window.localStorage.setItem("sortabletable-myTable", storedString);
 
             var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
 
             expect(t.searchTerm()).toEqual('xyz');
+
+            window.localStorage.removeItem( t.getSettingsId() );
+        });
+
+        it('should recreated Field-Objects for sortfields when recovering settings', function() {
+            var storedString = '{"searchTerm":"xyz","sortByFields":[{"field":{"name":"field2","label":"mylabel2","valueAccessor":"field2","validation":""},"direction":"asc"}],"rowsPerPage":0,"currentPageIdx":0}';
+            window.localStorage.setItem("sortabletable-myTable", storedString);
+
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:columns, id:'myTable'});
+
+            var sortbyprop = t.sortByFields()[0];
+            expect(sortbyprop.field instanceof Field).toBeTruthy();
 
             window.localStorage.removeItem( t.getSettingsId() );
         });
