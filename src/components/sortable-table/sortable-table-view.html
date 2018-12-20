@@ -10,7 +10,9 @@
                 <div class="input-group-addon">
                     <span class="glyphicon glyphicon-search"></span>
                 </div>
-                <div class="clear-search" data-bind="click: clearSearch"></div>
+                <div class="clear-search" data-bind="click: clearSearch, visible:searchTerm().length > 0">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </div>
             </div>
             <!-- /ko -->
 

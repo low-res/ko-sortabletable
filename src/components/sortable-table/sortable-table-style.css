@@ -1,8 +1,8 @@
 .sortable-table-widget .table {
   position: relative;
   /*
-   * Sorting
-   */
+     * Sorting
+     */
 }
 .sortable-table-widget .table thead > tr > th {
   background-color: transparent;
@@ -54,9 +54,6 @@
 .sortable-table-widget .table thead td:active {
   outline: none;
 }
-.sortable-table-widget .table .table-search .clear-search:before {
-  content: "x";
-}
 .sortable-table-widget .table tr.even {
   background: transparent;
 }
@@ -65,4 +62,16 @@
 }
 .sortable-table-widget .table tr.selected {
   background: #ffd;
+}
+.sortable-table-widget .table-search {
+  position: relative;
+}
+.sortable-table-widget .table-search .clear-search {
+  position: absolute;
+  z-index: 10;
+  left: 115px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  background: grey;
 }
