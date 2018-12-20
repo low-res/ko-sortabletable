@@ -286,6 +286,7 @@ define([
 
 
     p._calculateSortedAndFilteredTabledata = function() {
+
         var self        = this;
         var t           = ko.utils.unwrapObservable(this.originalTabledata);
 
@@ -355,6 +356,7 @@ define([
         var rpp = this.rowsPerPage();
         if(this.pagination && rpp > 0  ) {
             var startIdx = this.currentPageIdx() * rpp;
+            if(startIdx < 1) startIdx = 1;
             t = _.slice(t, startIdx, startIdx + rpp)
         }
 

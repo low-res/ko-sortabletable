@@ -17,7 +17,7 @@ define( [
 
     this.columns = this.fields.getCollectionFields('overview');
 
-    this.tabledata = [
+    this.tabledata = ko.observableArray([
         {col1: 1, col2: "Zxyz"},
         {col1: 2, col2: "Xxyz"},
         {col1: 3, col2: "Yxyz"},
@@ -33,17 +33,21 @@ define( [
         {col1: 13, col2: "Yxyz"},
         {col1: 14, col2: "Wxyz"},
         {col1: 15, col2: "Vxyz"}
-    ];
+    ]);
 
-    var numrows = 50000;
+    var numrows = 0;
     for(var i = 0; i < numrows; i++) {
         this.tabledata.push(
             {col1: i, col2: Math.random().toString(36).substring(2, 15) }
         );
     }
 
-    this.deleteRow = function(){
+    this.deleteRow = function( row ) {
         console.log( "delete row called", arguments )
+        var o = this.tabledata();
+        _.remove( o, row);
+        this.tabledata(o);
+
     };
 
     this.multiEdit = function(){
@@ -66,6 +70,13 @@ define( [
         {title:"edit", icon:"fa fa-edit", callback:_.bind(this.multiEdit, this)},
         {title:"delete", icon:"fa fa-delete", callback:_.bind(this.deleteRow, this)}
     ];
+
+    this.addEntry = function () {
+        console.log( "add" );
+        this.tabledata.push(
+            {col1: i, col2: Math.random().toString(36).substring(2, 15) }
+        );
+    }
 
     console.log( "start" );
     ko.applyBindings(  );
