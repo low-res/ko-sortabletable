@@ -16,20 +16,6 @@
             </div>
             <!-- /ko -->
 
-
-            <!-- ko if:showMultirowActions -->
-            <div class="multirowactions-group">
-                <select data-bind="options: multiRowActions,
-                       optionsText: function(data){ return kopa.translate(data.title); },
-                       value: selectedmultirowAction,
-                       optionsCaption: 'Choose...'">
-                </select>
-                <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                    {{ 'executeMultirowAction' | translate }}
-                </button>
-            </div>
-            <!-- /ko -->
-
         <!-- /ko -->
 
             <div class="options pull-right">
@@ -47,6 +33,19 @@
                 </button>
                 <!-- /ko -->
             </div>
+
+        <!-- ko if:showMultirowActions && hasData -->
+            <div class="multirowactions-group pull-right">
+                <select data-bind="options: multiRowActions,
+                           optionsText: function(data){ return kopa.translate(data.title); },
+                           value: selectedmultirowAction,
+                           optionsCaption: 'Choose...'">
+                </select>
+                <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    {{ 'executeMultirowAction' | translate }}
+                </button>
+            </div>
+        <!-- /ko -->
     </div>
 
 
