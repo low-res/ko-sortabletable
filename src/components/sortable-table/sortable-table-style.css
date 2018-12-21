@@ -25,22 +25,13 @@
   background-image: url('/assets/img/sort_both.png');
   background-position: right 0px bottom 12px;
 }
-.sortable-table-widget .table .sorting:after {
-  content: "   ";
-}
 .sortable-table-widget .table .sorting_asc {
   background-image: url('/assets/img/sort_asc.png');
   background-position: right 0px bottom 12px;
 }
-.sortable-table-widget .table .sorting_asc:after {
-  content: "  >";
-}
 .sortable-table-widget .table .sorting_desc {
   background-image: url('/assets/img/sort_desc.png');
   background-position: right 0px bottom 12px;
-}
-.sortable-table-widget .table .sorting_desc:after {
-  content: "<  ";
 }
 .sortable-table-widget .table .sorting_asc_disabled {
   background-image: url('/assets/img/sort_asc_disabled.png');

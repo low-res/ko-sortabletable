@@ -23,6 +23,21 @@
             });
             SystemJS.import('./index.js');
         </script>
+
+    <style>
+        .sortable-table-widget .table .sorting:after {
+            content: "   ";
+        }
+        .sortable-table-widget .table .sorting_asc {
+
+        .sortable-table-widget .table .sorting_asc:after {
+            content: "  >";
+        }
+
+        .sortable-table-widget .table .sorting_desc:after {
+            content: "<  ";
+        }
+    </style>
 </head>
 <body>
     <h1>Sortable Table Demo</h1>
