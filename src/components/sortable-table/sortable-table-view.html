@@ -35,15 +35,17 @@
             </div>
 
         <!-- ko if:showMultirowActions && hasData -->
-            <div class="multirowactions-group pull-right">
-                <select data-bind="options: multiRowActions,
+            <div class="multirowactions-group pull-right input-group">
+                <select class="form-control" data-bind="options: multiRowActions,
                            optionsText: function(data){ return kopa.translate(data.title); },
                            value: selectedmultirowAction,
                            optionsCaption: 'Choose...'">
                 </select>
-                <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                <span class="input-group-btn">
+                    <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
                     {{ 'executeMultirowAction' | translate }}
                 </button>
+                </span>
             </div>
         <!-- /ko -->
     </div>
