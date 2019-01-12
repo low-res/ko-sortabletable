@@ -34,7 +34,7 @@
                 <!-- /ko -->
             </div>
 
-        <!-- ko if:showMultirowActions && hasData -->
+        <!-- ko if:showMultirowActions() && hasData -->
             <div class="multirowactions-group pull-right input-group">
                 <select class="form-control" data-bind="options: multiRowActions,
                            optionsText: function(data){ return kopa.translate(data.title); },
