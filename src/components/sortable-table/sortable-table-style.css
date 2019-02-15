@@ -45,14 +45,20 @@
 .sortable-table-widget .table thead td:active {
   outline: none;
 }
+.sortable-table-widget .table th.selectall i::before {
+  content: "\f046";
+}
 .sortable-table-widget .table tr.even {
   background: transparent;
 }
 .sortable-table-widget .table tr.odd {
   background: #eee;
 }
-.sortable-table-widget .table tr.selected {
-  background: #ffd;
+.sortable-table-widget .table tr.selectable .selector i::before {
+  content: "\f096";
+}
+.sortable-table-widget .table tr.selectable.selected .selector i::before {
+  content: "\f046";
 }
 .sortable-table-widget .table-search {
   position: relative;

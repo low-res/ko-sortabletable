@@ -110,7 +110,7 @@ define([
         var found       = _.find(sortFields, ['field', field]);
 
         if( event && event.shiftKey ) {
-            if(!found) sortFields.push(o);
+            if(!found) sortFields.unshift(o);
         } else {
             // clear all sortfields and add only the new ones
             if(!found) {
@@ -132,25 +132,42 @@ define([
     /**
      * execute rowOption[0] on row click, if
      * we have only one rowOption
-     * This is disabled if multiRowActions are given, because it would make handling the tablerow for the user
-     * much harder
      */
-    p.handleRowClick = function ( item ) {
-        if( (this.rowOptions.length == 1 || this.forceRowClick) && !this.showMultirowActions() ) {
+    p.handleRowClick = function ( rowData, event ) {
+        if( (this.rowOptions.length == 1 || this.forceRowClick) ) {
             var c = this.rowOptions[0].callback;
-            c( item );
-        } else if( this.showMultirowActions() ) {
+            c( rowData );
+        }
+    }
+
+
+    p.handleRowSelection = function( rowData ) {
+        if( this.showMultirowActions() ) {
             var sr = this.selectedRows();
-            if( !_.find( sr, item ) ) {
-                sr.push(item);
+            if( !_.find( sr, rowData ) ) {
+                sr.push(rowData);
             } else {
-                _.remove( sr, item );
+                _.remove( sr, rowData );
             }
             this.selectedRows( sr );
         }
     }
 
-    
+
+    p.toggleSelectAll = function(){
+        var sr = this.selectedRows();
+        if( sr.length > 0 ) {
+            sr = [];
+        } else {
+            var all = this.visibleTabledata();
+            _.map(all, function(row){
+                sr.push(row)
+            })
+        }
+        this.selectedRows(sr);
+    }
+
+
     p.nextPage = function() {
         var c = this.currentPageIdx();
         this.selectPage(c+1);

@@ -63,7 +63,11 @@
       outline: none;
     }
 
-
+    th.selectall {
+      i::before {
+        content: "\f046";
+      }
+    }
 
     tr {
       &.even {
@@ -74,9 +78,19 @@
         background: #eee;
       }
 
-      &.selected {
-        background: #ffd;
+      &.selectable {
+        .selector i::before {
+          content: "\f096";
+        }
+
+        &.selected {
+          .selector i::before {
+            content: "\f046";
+          }
+        }
       }
+
+
     }
   }
 
@@ -94,5 +108,4 @@
     }
 
   }
-
 }

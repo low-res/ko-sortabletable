@@ -4,49 +4,49 @@
 
         <!-- ko if: hasData -->
 
-            <!-- ko if:searchable -->
-            <div class="input-group search pull-right table-search">
-                <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
-                <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-search"></span>
-                </div>
-                <div class="clear-search" data-bind="click: clearSearch, visible:searchTerm().length > 0">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </div>
+        <!-- ko if:searchable -->
+        <div class="input-group search pull-right table-search">
+            <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
             </div>
-            <!-- /ko -->
+            <div class="clear-search" data-bind="click: clearSearch, visible:searchTerm().length > 0">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
+        </div>
+        <!-- /ko -->
 
         <!-- /ko -->
 
-            <div class="options pull-right">
-                <!-- ko foreach: $component.headerOptions -->
-                <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                    {{ $data.title | translate }}
-                    <span class="{{$data.icon}}"></span>
-                </button>
-                <!-- /ko -->
+        <div class="options pull-right">
+            <!-- ko foreach: $component.headerOptions -->
+            <button data-bind="click: function(){ $data.callback($parent)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                {{ $data.title | translate }}
+                <span class="{{$data.icon}}"></span>
+            </button>
+            <!-- /ko -->
 
-                <!-- ko if: exportable && hasData -->
-                <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
-                    {{ "CSV Export" | translate }}
-                    <span class="fa fa-download"></span>
-                </button>
-                <!-- /ko -->
-            </div>
+            <!-- ko if: exportable && hasData -->
+            <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                {{ "CSV Export" | translate }}
+                <span class="fa fa-download"></span>
+            </button>
+            <!-- /ko -->
+        </div>
 
         <!-- ko if:showMultirowActions() && hasData -->
-            <div class="multirowactions-group pull-right input-group">
-                <select class="form-control" data-bind="options: multiRowActions,
+        <div class="multirowactions-group pull-right input-group">
+            <select class="form-control" data-bind="options: multiRowActions,
                            optionsText: function(data){ return kopa.translate(data.title); },
                            value: selectedmultirowAction,
                            optionsCaption: 'Choose...'">
-                </select>
-                <span class="input-group-btn">
+            </select>
+            <span class="input-group-btn">
                     <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
                     {{ 'executeMultirowAction' | translate }}
                     </button>
                 </span>
-            </div>
+        </div>
         <!-- /ko -->
     </div>
 
@@ -55,6 +55,13 @@
     <table class="table sortable">
         <thead>
         <tr>
+
+            <!-- ko if: $component.showMultirowActions() -->
+            <th data-bind="click: $component.toggleSelectAll" class="selectall">
+                <i class="fa" aria-hidden="true"></i>
+            </th>
+            <!-- /ko -->
+
 
             <!-- ko foreach: $component.columnFields -->
             <th data-bind="click: $parent.sortBy , css: $parent.calculateColumnHeaderCssClass($data)">
@@ -71,17 +78,24 @@
         </thead>
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
-        <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index), click:$component.handleRowClick ">
+        <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
+
+            <!-- ko if: $component.showMultirowActions() -->
+            <td class="selector" data-bind="click: function(){ $component.handleRowSelection( rowData ) }">
+                <i class="fa" aria-hidden="true"></i>
+            </td>
+            <!-- /ko -->
+
 
             <!-- ko foreach: $component.columnFields -->
-            <td data-bind="css: $component.calculateTDcssClass($data, rowData) ">
+            <td data-bind="css: $component.calculateTDcssClass($data, rowData),  click: function(){$component.handleRowClick(rowData);} ">
 
                 <!-- ko if:$data.renderRaw -->
-                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
                 <!-- /ko -->
 
                 <!-- ko if:!$data.renderRaw -->
-                    {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                {{ $component._getFormatedFieldValue( $data, rowData ) }}
                 <!-- /ko -->
 
             </td>
@@ -101,18 +115,18 @@
         </tr>
         </tbody>
         <tfoot>
-            <!-- ko if: pagination === true -->
-            <tr class="pagination">
-                <td  colspan="{{$component.columnFields.length}}">
-                    <button class="prev btn btn-default btn-xs" data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
+        <!-- ko if: pagination === true -->
+        <tr class="pagination">
+            <td  colspan="{{$component.columnFields.length}}">
+                <button class="prev btn btn-default btn-xs" data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
 
-                    <span class="pages">
+                <span class="pages">
                         {{ currentPageIdx() + 1 }} / {{ numPages }}
                     </span>
 
-                    <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
+                <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
 
-                    <span class="numrowsselection">
+                <span class="numrowsselection">
                     {{ rows_per_page_msg | translate }}
                     <select data-bind="
                             options: rowsPerPageSelection,
@@ -120,10 +134,10 @@
                            "></select>
                     </span>
 
-                </td>
+            </td>
 
-            </tr>
-            <!-- /ko -->
+        </tr>
+        <!-- /ko -->
         </tfoot>
     </table>
     <!-- /ko -->
