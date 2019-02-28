@@ -26,6 +26,7 @@ define([
         this.customTableClass   = params.customTableClass || "";
         this.headline           = params.headline || "";
         this.forceRowClick      = params.forceRowClick || false; // explicitly execute first rowOption on row-click, if we have more than one option
+        this.exportFileName     = params.exportFileName || "data.csv"; // explicitly execute first rowOption on row-click, if we have more than one option
 
         this.sortByField        = ko.observable();
         this.sortByDirection    = ko.observable("asc");
@@ -153,9 +154,9 @@ define([
 
 
     p.exportAsCsv = function () {
-        var filename = "data.csv";
-        var csvString = this._generateCSVString();
-        var blob = new Blob([csvString], { type:   'text/csv' } );
+        var filename    = this.exportFileName;
+        var csvString   = this._generateCSVString();
+        var blob        = new Blob([csvString], { type:   'text/csv' } );
 
         if (window.navigator && window.navigator.msSaveOrOpenBlob) { // for IE
             window.navigator.msSaveOrOpenBlob(blob, filename);
