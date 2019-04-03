@@ -45,8 +45,9 @@ define([
         this.currentPageIdx     = ko.observable(0);
         this.numPages           = ko.pureComputed( function () {
             var otd = ko.utils.unwrapObservable(self.sortedAndFilteredTabledata);
+            var l = otd ? otd.length : 0;
             var rpp = self.rowsPerPage();
-            return rpp > 0 ? Math.ceil( otd.length / rpp ) : 1;
+            return rpp > 0 ? Math.ceil( l / rpp ) : 0;
         });
         this.rowsPerPage.subscribe( function(v) {
             console.log( "rowsPerPage.subscribe", v, self.pagination );
@@ -65,7 +66,7 @@ define([
             var res = (self.forceRowClick && self.rowOptions.length > 1) || (!self.forceRowClick && self.rowOptions.length > 0)
             return res;
         } );
-        this.showMultirowActions = ko.pureComputed( function(){
+        this.showMultirowActions = ko.pureComputed( function() {
             var res = self.multiRowActions.length > 0;
             return res;
         });
@@ -123,7 +124,6 @@ define([
         if( found ) {
             this._toggleSortDirection( found );
         }
-
         this.sortByFields(sortFields);
         this.sortByFields.valueHasMutated();
     }
@@ -206,9 +206,7 @@ define([
         var self = this;
         var data = this.selectedRows();
         var action = this.selectedmultirowAction();
-        console.log( data, action );
         if( data.length > 0 && action && action.callback  ) {
-            console.log( "execute callback" );
             var p = action.callback( data );
 
             // if callback returns a promisse, clear/keep the selection
@@ -352,6 +350,7 @@ define([
         var sortFunctions = _.map(sortFields, function( tmpField ) {
             var sortField = tmpField.field;
             var f = function ( tmpField, tableRow ) {
+
                 return tmpField.field.getFieldValue( tableRow );
             };
             return _.bind(f, this, tmpField);
@@ -362,7 +361,15 @@ define([
             return tmpField.direction;
         });
 
-        return _.orderBy(tableRows, sortFunctions, sortDirections );
+        try {
+            var o = _.orderBy(tableRows, sortFunctions, sortDirections );
+        }
+        catch (e) {
+            // Anweisungen für jeden Fehler
+            console.warn( e )
+        }
+
+        return o;
     }
 
 
@@ -373,7 +380,7 @@ define([
         var rpp = this.rowsPerPage();
         if(this.pagination && rpp > 0  ) {
             var startIdx = this.currentPageIdx() * rpp;
-            if(startIdx < 1) startIdx = 1;
+            if(startIdx < 1) startIdx = 0;
             t = _.slice(t, startIdx, startIdx + rpp)
         }
 
