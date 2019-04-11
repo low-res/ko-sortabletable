@@ -1,0 +1,111 @@
+.sortable-table-widget
+{
+
+  .table {
+
+    position: relative;
+
+    thead > tr > th {
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: 97% center;
+      padding-right: 20px;
+    }
+
+    tbody {
+      border-bottom: 1px solid #ddd;
+    }
+
+    td.options {
+      text-align: right;
+
+      button.btn-xs {
+        background-color: #ddd;
+        border-radius: 0;
+        border: none;
+      }
+    }
+
+    .soringBgPosition(){
+      background-position: right 0px bottom 12px;
+    }
+
+    /*
+     * Sorting
+     */
+    .sorting {
+      background-image: url('/assets/img/sort_both.png');
+      .soringBgPosition();
+    }
+
+    .sorting_asc {
+      background-image: url('/assets/img/sort_asc.png');
+      .soringBgPosition();
+    }
+
+    .sorting_desc {
+      background-image: url('/assets/img/sort_desc.png');
+      .soringBgPosition();
+    }
+
+    .sorting_asc_disabled {
+      background-image: url('/assets/img/sort_asc_disabled.png');
+      .soringBgPosition();
+    }
+
+    .sorting_desc_disabled {
+      background-image: url('/assets/img/sort_desc_disabled.png');
+      .soringBgPosition();
+    }
+
+    thead th:active,
+    thead td:active {
+      outline: none;
+    }
+
+    th.selectall {
+      i::before {
+        content: "\f046";
+      }
+    }
+
+    tr {
+      &.even {
+        background: transparent;
+      }
+
+      &.odd {
+        background: #eee;
+      }
+
+      &.selectable {
+        .selector i::before {
+          content: "\f096";
+        }
+
+        &.selected {
+          .selector i::before {
+            content: "\f046";
+          }
+        }
+      }
+
+
+    }
+  }
+
+  .table-search {
+    position: relative;
+
+    .clear-search {
+      position: absolute;
+      z-index:10;
+      left:115px;
+      top:4px;
+      width: 10px;
+      height: 10px;
+      background: grey;
+    }
+
+  }
+}

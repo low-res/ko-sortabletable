@@ -1,8 +1,8 @@
 .sortable-table-widget .table {
   position: relative;
   /*
-   * Sorting
-   */
+     * Sorting
+     */
 }
 .sortable-table-widget .table thead > tr > th {
   background-color: transparent;
@@ -45,18 +45,30 @@
 .sortable-table-widget .table thead td:active {
   outline: none;
 }
-.sortable-table-widget .table .search {
+.sortable-table-widget .table th.selectall i::before {
+  content: "\f046";
+}
+.sortable-table-widget .table tr.even {
+  background: transparent;
+}
+.sortable-table-widget .table tr.odd {
+  background: #eee;
+}
+.sortable-table-widget .table tr.selectable .selector i::before {
+  content: "\f096";
+}
+.sortable-table-widget .table tr.selectable.selected .selector i::before {
+  content: "\f046";
+}
+.sortable-table-widget .table-search {
+  position: relative;
+}
+.sortable-table-widget .table-search .clear-search {
   position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 250px;
-}
-.sortable-table-widget .table .search .searchicon {
-  top: 14px;
-  right: 17px;
-  opacity: 0.5;
-}
-.sortable-table-widget .table .search .searchicon:hover {
-  opacity: 1;
-  cursor: pointer;
+  z-index: 10;
+  left: 115px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  background: grey;
 }

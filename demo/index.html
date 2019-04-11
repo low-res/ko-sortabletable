@@ -23,6 +23,21 @@
             });
             SystemJS.import('./index.js');
         </script>
+
+    <style>
+        .sortable-table-widget .table .sorting:after {
+            content: "   ";
+        }
+        .sortable-table-widget .table .sorting_asc {
+
+        .sortable-table-widget .table .sorting_asc:after {
+            content: "  >";
+        }
+
+        .sortable-table-widget .table .sorting_desc:after {
+            content: "<  ";
+        }
+    </style>
 </head>
 <body>
     <h1>Sortable Table Demo</h1>
@@ -34,7 +49,10 @@
         pagination:true,
         rowsPerPage:5,
         rowsPerPageSelection:[1,5,100,200],
-        searchable:true
+        searchable:true,
+        rowOptions: rowOptions,
+        multiRowActions: multiRowActions
     "></ko-sortabletable>
+    <button data-bind="click:addEntry">Add</button>
 </body>
 </html>
