@@ -86,12 +86,12 @@ define([
             t.sortBy(f2, {shiftKey:true});
 
             expect( t.sortByFields().length ).toEqual( 2 );
-            expect( t.sortByFields()[1].field ).toEqual( f2 );
-            expect( t.sortByFields()[1].direction ).toEqual( "asc" );
+            expect( t.sortByFields()[0].field ).toEqual( f2 );
+            expect( t.sortByFields()[0].direction ).toEqual( "asc" );
 
             t.sortBy(f2, {shiftKey:true});
 
-            expect( t.sortByFields()[1].direction ).toEqual( "desc" );
+            expect( t.sortByFields()[0].direction ).toEqual( "desc" );
 
             t.sortBy(f2);
 
@@ -118,9 +118,9 @@ define([
             expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
 
             t.sortBy( f2, {shiftKey:true} );
-            expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);
-            expect(t.visibleTabledata()[1]).toEqual(tabledata[1]);
-            expect(t.visibleTabledata()[2]).toEqual(tabledata[0]);
+            expect(t.visibleTabledata()[0]).toEqual(tabledata[1]);
+            expect(t.visibleTabledata()[1]).toEqual(tabledata[0]);
+            expect(t.visibleTabledata()[2]).toEqual(tabledata[2]);
 
             t.sortBy( f2, {shiftKey:true} );
             expect(t.visibleTabledata()[0]).toEqual(tabledata[2]);

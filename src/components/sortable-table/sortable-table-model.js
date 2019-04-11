@@ -361,13 +361,7 @@ define([
             return tmpField.direction;
         });
 
-        try {
-            var o = _.orderBy(tableRows, sortFunctions, sortDirections );
-        }
-        catch (e) {
-            // Anweisungen für jeden Fehler
-            console.warn( e )
-        }
+        var o = _.orderBy(tableRows, sortFunctions, sortDirections );
 
         return o;
     }
