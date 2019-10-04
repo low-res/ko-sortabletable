@@ -33,6 +33,7 @@ define([
 
         // ordering
         this.sortByFields       = ko.observableArray( params.sorting || [] );
+        this.sortable           = _.isBoolean(params.sortable) ? params.sortable : true;
 
         // search
         this.searchable         = params.searchable && true;
@@ -104,8 +105,9 @@ define([
      * @param field
      */
     p.sortBy = function( field, event ) {
-        var self = this;
+        if( !this.sortable ) return;
 
+        var self = this;
         var o           = {field:field, direction:'asc'};
         var sortFields  = this.sortByFields();
         var found       = _.find(sortFields, ['field', field]);
@@ -231,6 +233,8 @@ define([
      * @returns {string}
      */
     p.calculateColumnHeaderCssClass = function( field ) {
+        if(!this.sortable) return "";
+
         var cssClass = "sorting";
         var sortByFields = this.sortByFields();
         var found  = _.find(sortByFields, ['field', field]);

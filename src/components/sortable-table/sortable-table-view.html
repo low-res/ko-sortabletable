@@ -76,6 +76,7 @@
             <!-- /ko -->
         </tr>
         </thead>
+
         <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
 
         <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
@@ -114,6 +115,7 @@
             <!-- /ko -->
         </tr>
         </tbody>
+
         <tfoot>
         <!-- ko if: pagination === true -->
         <tr class="pagination">
