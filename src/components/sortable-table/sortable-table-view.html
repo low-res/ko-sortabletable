@@ -91,12 +91,18 @@
             <!-- ko foreach: $component.columnFields -->
             <td data-bind="css: $component.calculateTDcssClass($data, rowData),  click: function(){$component.handleRowClick(rowData);} ">
 
-                <!-- ko if:$data.renderRaw -->
-                {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                <!-- ko if:$data.componentName -->
+                    <!-- ko component: { name: $data.componentName, params:{field:$data, entity:rowData} } --><!-- /ko -->
                 <!-- /ko -->
 
-                <!-- ko if:!$data.renderRaw -->
-                {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                <!-- ko if: !$data.componentName -->
+                    <!-- ko if:$data.renderRaw -->
+                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                    <!-- /ko -->
+
+                    <!-- ko if:!$data.renderRaw -->
+                    {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                    <!-- /ko -->
                 <!-- /ko -->
 
             </td>

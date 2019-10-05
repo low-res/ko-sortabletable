@@ -24,7 +24,8 @@ define([
                 {name:'field3', label:'mylabel3', valueAccessor:'field3'}
             ],
             collections: [
-                {name:'overview', fields:['field1','field2','field3']}
+                {name:'overview', fields:['field1','field2','field3']},
+                {name:'variation', fields:['field3','field1']}
             ]
         });
 
@@ -351,6 +352,17 @@ define([
             var t2 = new SortableTable({tabledata:tabledata, fieldsCollection:columns, multiRowActions:[]});
             expect(t2.showMultirowActions()).toBeFalsy();
         });
+
+        it('should be possible to change the columns at runtime (fieldcolumns as observable)', function() {
+            var set1 = fieldcollection.getCollectionFields('overview');
+            var set2 = fieldcollection.getCollectionFields('variation');
+            var cols = ko.observableArray(set1);
+
+            var t = new SortableTable({tabledata:tabledata, fieldsCollection:cols});
+            var f = fieldcollection.getField("field2");
+            console.log( t.visibleTabledata() );
+            //expect(t.visibleTabledata()[0]).toEqual(tabledata[0]);
+        })
 
     })
 
