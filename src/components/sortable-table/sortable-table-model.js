@@ -60,7 +60,8 @@ define([
         // multiselect and rowoptions
         this.rowOptions         = params.rowOptions || [];
         this.multiRowActions    = params.multiRowActions || [];
-        this.selectedmultirowAction = ko.observable(null);
+        this.executeMultirowAction_label = params.executeMultirowAction_label || 'executeMultirowAction';
+        this.selectedmultirowAction = ko.observable( this.multiRowActions.length == 1 ? this.multiRowActions[0] : null );
         this.forceRowClick      = params.forceRowClick || false; // explicitly execute first rowOption on row-click, if we have more than one option
         this.selectedRows       = ko.observableArray([])
         this.showRowOptions     = ko.pureComputed( function() {
@@ -133,12 +134,16 @@ define([
 
     /**
      * execute rowOption[0] on row click, if
-     * we have only one rowOption
+     * we have only one rowOption.
+     * Or select the row, if we don't have rowoptions, but
+     * multirowactions
      */
     p.handleRowClick = function ( rowData, event ) {
-        if( (this.rowOptions.length == 1 || this.forceRowClick) ) {
+        if( (this.rowOptions.length > 0 && this.forceRowClick) ) {
             var c = this.rowOptions[0].callback;
-            c( rowData );
+            c( rowData, event );
+        } else if( this.showMultirowActions() ) {
+            this.handleRowSelection(rowData);
         }
     }
 
