@@ -118,9 +118,15 @@
             <td class="options">
                 <div class="holder">
                     <!-- ko foreach: $component.rowOptions -->
-                    <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                        <span class="{{$data.icon}}"></span>
-                    </button>
+                        <!-- ko if:$data.componentName -->
+                            <!-- ko component: { name: $data.componentName, params:{entity:rowData} } --><!-- /ko -->
+                        <!-- /ko -->
+
+                        <!-- ko if:!$data.componentName -->
+                            <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                                <span class="{{$data.icon}}"></span>
+                            </button>
+                        <!-- /ko -->
                     <!-- /ko -->
                 </div>
             </td>
