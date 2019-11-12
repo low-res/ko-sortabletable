@@ -1,152 +1,160 @@
-<div class="sortable-table-widget">
-<div class="header clearfix">
-    <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
+<div class="sortable-table-widget" data-bind="css: {hasData:hasData}" >
+    <div class="header clearfix">
+        <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-    <!-- ko if: hasData -->
+        <!-- ko if: hasData -->
 
-    <!-- ko if:searchable -->
-    <div class="input-group search pull-right table-search">
-        <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
-        <div class="input-group-addon">
-            <span class="glyphicon glyphicon-search"></span>
+        <!-- ko if:searchable -->
+        <div class="input-group search pull-right table-search">
+            <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+            </div>
+            <div class="clear-search" data-bind="click: clearSearch, visible:searchTerm().length > 0">
+                <span class="glyphicon glyphicon-remove"></span>
+            </div>
         </div>
-        <div class="clear-search" data-bind="click: clearSearch, visible:searchTerm().length > 0">
-            <span class="glyphicon glyphicon-remove"></span>
-        </div>
-    </div>
-    <!-- /ko -->
-
-    <!-- /ko -->
-
-    <div class="options pull-right">
-        <!-- ko foreach: $component.headerOptions -->
-        <button data-bind="click: function(){ $data.callback( $parent )}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-            {{ $data.title | translate }}
-            <span class="{{$data.icon}}"></span>
-        </button>
         <!-- /ko -->
 
-        <!-- ko if: exportable && hasData -->
-        <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
-            {{ "CSV Export" | translate }}
-            <span class="fa fa-download"></span>
-        </button>
         <!-- /ko -->
-    </div>
 
-    <!-- ko if:showMultirowActions() && hasData -->
-    <div class="multirowactions-group pull-right input-group">
-        <!-- ko if: multiRowActions.length > 1 -->
-        <select class="form-control" data-bind="
+        <div class="options pull-right">
+            <!-- ko foreach: $component.headerOptions -->
+
+            <!-- ko if:$data.componentName -->
+                <!-- ko component: { name: $data.componentName, params:{table: $parent, config:$data} } --><!-- /ko -->
+            <!-- /ko -->
+
+            <!-- ko if:!$data.componentName -->
+            <button data-bind="click: function(){ $data.callback( $parent )}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                {{ $data.title | translate }}
+                <span class="{{$data.icon}}"></span>
+            </button>
+            <!-- /ko -->
+
+            <!-- /ko -->
+
+            <!-- ko if: exportable && hasData -->
+            <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                {{ "CSV Export" | translate }}
+                <span class="fa fa-download"></span>
+            </button>
+            <!-- /ko -->
+        </div>
+
+        <!-- ko if:showMultirowActions() && hasData -->
+        <div class="multirowactions-group pull-right input-group">
+            <!-- ko if: multiRowActions.length > 1 -->
+            <select class="form-control" data-bind="
                            options: multiRowActions,
                            optionsText: function(data){ return kopa.translate(data.title); },
                            value: selectedmultirowAction,
                            optionsCaption: 'Choose...'">
-        </select>
-        <!-- /ko -->
-        <span class="input-group-btn">
+            </select>
+            <!-- /ko -->
+            <span class="input-group-btn">
                     <button data-bind="click: $component.executeMultirowAction, css:{ disabled : selectedRows().length < 1 || !selectedmultirowAction() }" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
                     {{ executeMultirowAction_label | translate }}
                     </button>
             </span>
+        </div>
+        <!-- /ko -->
     </div>
-    <!-- /ko -->
-</div>
 
-<div class="table-responsive {{customTableClass}}">
+    <div class="table-responsive {{customTableClass}}">
 
 
 
-    <!-- ko if:visibleTabledata().length > 0 -->
-    <table class="table sortable">
-        <thead>
-        <tr>
+        <!-- ko if:visibleTabledata().length > 0 -->
+        <table class="table sortable">
+            <thead>
+            <tr>
 
-            <!-- ko if: $component.showMultirowActions() -->
-            <th data-bind="click: $component.toggleSelectAll" class="selectall">
-                <i class="fa" aria-hidden="true"></i>
-            </th>
-            <!-- /ko -->
-
-
-            <!-- ko foreach: $component.columnFields -->
-            <th data-bind="click: $parent.sortBy , css: $parent.calculateColumnHeaderCssClass($data)">
-                {{{ $data.label | translate }}}
-            </th>
-            <!-- /ko -->
-
-            <!-- ko if: $component.showRowOptions() -->
-            <th>
-                &nbsp
-            </th>
-            <!-- /ko -->
-        </tr>
-        </thead>
-
-        <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
-
-        <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
-
-            <!-- ko if: $component.showMultirowActions() -->
-            <td class="selector" data-bind="click: function(){ $component.handleRowSelection( rowData ) }">
-                <i class="fa" aria-hidden="true"></i>
-            </td>
-            <!-- /ko -->
-
-
-            <!-- ko foreach: $component.columnFields -->
-            <td data-bind="css: $component.calculateTDcssClass($data, rowData),  click: function(){$component.handleRowClick(rowData);} ">
-
-                <!-- ko if:$data.componentName -->
-                <!-- ko component: { name: $data.componentName, params:{field:$data, entity:rowData} } --><!-- /ko -->
+                <!-- ko if: $component.showMultirowActions() -->
+                <th data-bind="click: $component.toggleSelectAll" class="selectall">
+                    <i class="fa" aria-hidden="true"></i>
+                </th>
                 <!-- /ko -->
 
-                <!-- ko if: !$data.componentName -->
-                <!-- ko if:$data.renderRaw -->
-                {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+
+                <!-- ko foreach: $component.columnFields -->
+                <th data-bind="click: $parent.sortBy , css: $parent.calculateColumnHeaderCssClass($data)">
+                    {{{ $data.label | translate }}}
+                </th>
                 <!-- /ko -->
 
-                <!-- ko if:!$data.renderRaw -->
-                {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                <!-- ko if: $component.showRowOptions() -->
+                <th>
+                    &nbsp
+                </th>
                 <!-- /ko -->
+            </tr>
+            </thead>
+
+            <tbody data-bind="foreach: { data: visibleTabledata, as: 'rowData' }">
+
+            <tr  data-bind="css: $component.calculateTRcssClass(rowData,$index) ">
+
+                <!-- ko if: $component.showMultirowActions() -->
+                <td class="selector" data-bind="click: function(){ $component.handleRowSelection( rowData ) }">
+                    <i class="fa" aria-hidden="true"></i>
+                </td>
                 <!-- /ko -->
 
-            </td>
-            <!-- /ko -->
 
-            <!-- ko if: $component.showRowOptions() -->
-            <td class="options">
-                <div class="holder">
-                    <!-- ko foreach: $component.rowOptions -->
+                <!-- ko foreach: $component.columnFields -->
+                <td data-bind="css: $component.calculateTDcssClass($data, rowData),  click: function(){$component.handleRowClick(rowData);} ">
+
+                    <!-- ko if:$data.componentName -->
+                    <!-- ko component: { name: $data.componentName, params:{field:$data, entity:rowData} } --><!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko if: !$data.componentName -->
+                    <!-- ko if:$data.renderRaw -->
+                    {{{ $component._getFormatedFieldValue( $data, rowData ) }}}
+                    <!-- /ko -->
+
+                    <!-- ko if:!$data.renderRaw -->
+                    {{ $component._getFormatedFieldValue( $data, rowData ) }}
+                    <!-- /ko -->
+                    <!-- /ko -->
+
+                </td>
+                <!-- /ko -->
+
+                <!-- ko if: $component.showRowOptions() -->
+                <td class="options">
+                    <div class="holder">
+                        <!-- ko foreach: $component.rowOptions -->
                         <!-- ko if:$data.componentName -->
-                            <!-- ko component: { name: $data.componentName, params:{entity:rowData} } --><!-- /ko -->
+                        <!-- ko component: { name: $data.componentName, params:{entity:rowData} } --><!-- /ko -->
                         <!-- /ko -->
 
                         <!-- ko if:!$data.componentName -->
-                            <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                                <span class="{{$data.icon}}"></span>
-                            </button>
+                        <button data-bind="click: function(data,event){ $data.callback($parent, event)}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                            <span class="{{$data.icon}}"></span>
+                        </button>
                         <!-- /ko -->
-                    <!-- /ko -->
-                </div>
-            </td>
-            <!-- /ko -->
-        </tr>
-        </tbody>
+                        <!-- /ko -->
+                    </div>
+                </td>
+                <!-- /ko -->
+            </tr>
+            </tbody>
 
-        <tfoot>
-        <!-- ko if: pagination === true -->
-        <tr class="pagination">
-            <td  colspan="{{$component.columnFields.length}}">
-                <button class="prev btn btn-default btn-xs" data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
+            <tfoot>
+            <!-- ko if: pagination === true -->
+            <tr class="pagination">
+                <td  colspan="{{$component.columnFields.length}}">
+                    <button class="prev btn btn-default btn-xs" data-bind="click: $component.prevPage" class="pagination-button" >&lt;</button>
 
-                <span class="pages">
+                    <span class="pages">
                         {{ currentPageIdx() + 1 }} / {{ numPages }}
                     </span>
 
-                <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
+                    <button class="next btn btn-default btn-xs" data-bind="click: $component.nextPage" class="pagination-button" >&gt;</button>
 
-                <span class="numrowsselection">
+                    <span class="numrowsselection">
                     {{ rows_per_page_msg | translate }}
                     <select data-bind="
                             options: rowsPerPageSelection,
@@ -154,16 +162,16 @@
                            "></select>
                     </span>
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
+            <!-- /ko -->
+            </tfoot>
+        </table>
         <!-- /ko -->
-        </tfoot>
-    </table>
-    <!-- /ko -->
 
-    <!-- ko if:!hasData() -->
-    <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
-    <!-- /ko -->
-</div>
+        <!-- ko if:!hasData() -->
+        <p class="no_tabledata_msg">{{ no_tabledata_msg | translate }}</p>
+        <!-- /ko -->
+    </div>
 </div>
