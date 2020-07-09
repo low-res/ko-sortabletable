@@ -2,8 +2,6 @@
     <div class="header clearfix">
         <!-- ko if:headline!="" --><h4>{{ headline | translate }}</h4><!-- /ko -->
 
-        <!-- ko if: hasData -->
-
         <!-- ko if:searchable -->
         <div class="input-group search pull-right table-search">
             <input class="form-control" placeholder="{{ 'sortable-table.search' | translate }}" type="text" data-bind="textInput:searchTerm">
@@ -16,31 +14,35 @@
         </div>
         <!-- /ko -->
 
+        <!-- ko if: hasData -->
+
+            <div class="options pull-right">
+                <!-- ko foreach: $component.headerOptions -->
+
+                <!-- ko if:$data.componentName -->
+                <!-- ko component: { name: $data.componentName, params:{table: $parent, config:$data} } --><!-- /ko -->
+                <!-- /ko -->
+
+                <!-- ko if:!$data.componentName -->
+                <button data-bind="click: function(){ $data.callback( $parent )}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
+                    {{ $data.title | translate }}
+                    <span class="{{$data.icon}}"></span>
+                </button>
+                <!-- /ko -->
+
+                <!-- /ko -->
+
+                <!-- ko if: exportable && hasData -->
+                <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
+                    {{ "CSV Export" | translate }}
+                    <span class="fa fa-download"></span>
+                </button>
+                <!-- /ko -->
+            </div>
+
         <!-- /ko -->
 
-        <div class="options pull-right">
-            <!-- ko foreach: $component.headerOptions -->
 
-            <!-- ko if:$data.componentName -->
-                <!-- ko component: { name: $data.componentName, params:{table: $parent, config:$data} } --><!-- /ko -->
-            <!-- /ko -->
-
-            <!-- ko if:!$data.componentName -->
-            <button data-bind="click: function(){ $data.callback( $parent )}" title="{{$data.title}}" type="button" class="btn btn-default btn-xs">
-                {{ $data.title | translate }}
-                <span class="{{$data.icon}}"></span>
-            </button>
-            <!-- /ko -->
-
-            <!-- /ko -->
-
-            <!-- ko if: exportable && hasData -->
-            <button data-bind="click: exportAsCsv" title="CSV Export" type="button" class="btn btn-default btn-xs">
-                {{ "CSV Export" | translate }}
-                <span class="fa fa-download"></span>
-            </button>
-            <!-- /ko -->
-        </div>
 
         <!-- ko if:showMultirowActions() && hasData -->
         <div class="multirowactions-group pull-right input-group">
