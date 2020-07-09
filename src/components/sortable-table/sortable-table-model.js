@@ -34,10 +34,17 @@ define([
         // ordering
         this.sortByFields       = ko.observableArray( params.sorting || [] );
         this.sortable           = _.isBoolean(params.sortable) ? params.sortable : true;
+        this.sortByHandler      = params.sortByHandler;
 
         // search
         this.searchable         = params.searchable && true;
         this.searchTerm         = ko.observable( params.searchterm || "" );
+        this.searchHandler      = params.searchHandler;
+        this.searchTerm.subscribe( function( term ) {
+            if( (term.length == 0 || term.length > 2) && self.searchHandler && _.isFunction(self.searchHandler) ) {
+                self.searchHandler( term );
+            }
+        });
 
         // pagination
         this.pagination         = params.pagination || false;
@@ -129,6 +136,11 @@ define([
         }
         this.sortByFields(sortFields);
         this.sortByFields.valueHasMutated();
+
+        if( this.sortByHandler && _.isFunction(this.sortByHandler) ) {
+            this.sortByHandler( sortFields );
+            return;
+        }
     }
 
 
@@ -303,7 +315,6 @@ define([
 
 
 
-
     /******************
      *  PRIVATE METHODS
      ******************/
@@ -315,7 +326,7 @@ define([
         var t           = ko.utils.unwrapObservable(this.originalTabledata);
 
         // filtering
-        if(this.searchTerm().length > 2) {
+        if(!this.searchHandler && this.searchTerm().length > 2) {
             t = self._filterTableRows( t );
 
             // reset pagination on filtering
@@ -323,7 +334,7 @@ define([
         }
 
         // sorting
-        if( this.sortByFields().length > 0 ) {
+        if( this.sortByFields().length > 0 && !this.sortByHandler ) {
             t = self._sortTableRows( t );
         }
 
