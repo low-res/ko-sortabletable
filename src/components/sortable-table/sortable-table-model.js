@@ -79,6 +79,7 @@ define([
             var res = self.multiRowActions.length > 0;
             return res;
         });
+        this.allowRowSelectOnCompleteRow = _.isBoolean(params.allowRowSelectOnCompleteRow) ?  params.allowRowSelectOnCompleteRow : true; // explicitly allow the selection of a row by clicking on the complete row. Can be needed to turn off if we have a clickable component inside the row which may interfear with this feature
 
         // csv export
         this.exportable         = params.exportable || false;
@@ -154,7 +155,7 @@ define([
         if( (this.rowOptions.length > 0 && this.forceRowClick) ) {
             var c = this.rowOptions[0].callback;
             c( rowData, event );
-        } else if( this.showMultirowActions() ) {
+        } else if( this.showMultirowActions() && this.allowRowSelectOnCompleteRow ) {
             this.handleRowSelection(rowData);
         }
     }
