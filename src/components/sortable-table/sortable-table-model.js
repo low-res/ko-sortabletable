@@ -371,8 +371,9 @@ define([
         var sortFunctions = _.map(sortFields, function( tmpField ) {
             var sortField = tmpField.field;
             var f = function ( tmpField, tableRow ) {
-
-                return tmpField.field.getFieldValue( tableRow );
+                let v = tmpField.field.getFieldValue( tableRow );
+                if( _.isString(v) ) v = v.toLowerCase();
+                return v;
             };
             return _.bind(f, this, tmpField);
         });
